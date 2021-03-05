@@ -22,14 +22,19 @@ namespace NoteAppUI
             //Источником данных для списка является класс-перечисление "Категория заметки"
             comboBox1.DataSource = Enum.GetValues(typeof(NoteCategory));
             label1.Text = "";
+
+            //Отображение времени создания и изменения заметки
             textBox3.Text = note.IsCreated.ToLongTimeString();
             textBox4.Text = note.IsChanged.ToLongTimeString();
         }
 
+        /// <summary>
+        /// Обработка события нажатия на кнопку "ОК"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
-            
-
             //Заносится название заметки
             try
             {
@@ -45,15 +50,18 @@ namespace NoteAppUI
             //Заносится содержимое заметки
             note.Text = textBox2.Text;
 
+            //Время последнего изменения обновляется
             textBox4.Text = note.IsChanged.ToLongTimeString();
 
+            //Путь к папке, лежащей в "Мои документы", где будет храниться файл NoteApp.notes
             string defaultPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/NoteApp/";
 
+            //Сохранение файла
             Project serialize = new Project {Notes = {note}};
             ProjectManager.SaveToFile(serialize, defaultPath);
 
+            //Загрузка из файла
             Project deserialize = ProjectManager.LoadFromFile(defaultPath);
-
         }
     }
 }
