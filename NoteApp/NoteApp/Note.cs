@@ -8,10 +8,29 @@ namespace NoteApp
     /// </summary>
     public class Note : ICloneable
     {
+        /// <summary>
+        /// Название заметки
+        /// </summary>
         private string _title = "Без названия";
+
+        /// <summary>
+        /// Категория заметки
+        /// </summary>
         private NoteCategory _category;
+
+        /// <summary>
+        /// Текст заметки
+        /// </summary>
         private string _text;
+
+        /// <summary>
+        /// Время создания заметки. По умолчанию: только для чтения
+        /// </summary>
         private readonly DateTime _isCreated = DateTime.Now;
+
+        /// <summary>
+        /// Время изменения файла
+        /// </summary>
         private DateTime _isChanged;
 
 
