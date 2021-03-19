@@ -1,26 +1,25 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Newtonsoft.Json;
 
 namespace NoteApp
 {
-    public class ProjectManager
+    public static class ProjectManager
     {
         /// <summary>
         /// Название файла для сохранений и загрузки
         /// </summary>
-        private const string FileName = "NoteApp.notes";
+        public static readonly string FileName = 
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) 
+            + "/NoteApp/NoteApp.notes";
 
         /// <summary>
         /// Сериализация (сохранение файла)
         /// </summary>
-        /// <param name="project"></param>
+        /// <param name="project">сериализуемый объект</param>
         /// <param name="filename">Название файла</param>
         public static void SaveToFile(Project project, string filename)
         {
-            //Создает каталог по указанному пути, если он не существует
-            Directory.CreateDirectory(filename);
-            filename += FileName;
-
             //Создается экземпляр сериализатора
             JsonSerializer serializer = new JsonSerializer();
 
@@ -43,33 +42,32 @@ namespace NoteApp
         /// <returns></returns>
         public static Project LoadFromFile(string filename)
         {
-            filename += FileName;
-
             //Создается переменная, которая будет хранить
             //результат десериализации
             Project project = null;
 
-            //Создается экземпляр сериализатора
-            JsonSerializer serializer = new JsonSerializer();
-
-            //Открывается поток для чтения из файла с указанием пути
-            using (StreamReader reader = new StreamReader(filename))
+            if (File.Exists(filename))
             {
-                using (JsonTextReader textReader = new JsonTextReader(reader))
+                //Создается экземпляр сериализатора
+                JsonSerializer serializer = new JsonSerializer();
+
+                //Открывается поток для чтения из файла с указанием пути
+                using (StreamReader reader = new StreamReader(filename))
                 {
-                    //Вызывается десериализация и явно
-                    //преобразуется результат в целевой тип данных
-                    project = (Project) serializer.Deserialize<Project>(textReader);
-
-                    if (project == null)
+                    using (JsonTextReader textReader = new JsonTextReader(reader))
                     {
-                        project = new Project();
+                        //Вызывается десериализация и явно
+                        //преобразуется результат в целевой тип данных
+                        project = serializer.Deserialize<Project>(textReader);
+
+                        if (project == null)
+                        {
+                            return new Project();
+                        }
                     }
-
-                    return project;
-
                 }
             }
+            return project;
         }
     }
 }

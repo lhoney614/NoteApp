@@ -3,10 +3,13 @@
 namespace NoteApp
 {
     /// <summary>
-    /// Содержит список всех заметок
+    /// Хранит список всех заметок
     /// </summary>
     public class Project
     {
-        public List<Note> Notes = new List<Note>();
+        /// <summary>
+        /// Возвращает список текущих заметок
+        /// </summary>
+        public List<Note> Notes { get; private set; } = new List<Note>();
     }
 }

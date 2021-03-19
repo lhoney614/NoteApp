@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using NoteApp;
 using Enum = System.Enum;
@@ -53,15 +47,12 @@ namespace NoteAppUI
             //Время последнего изменения обновляется
             textBox4.Text = note.IsChanged.ToLongTimeString();
 
-            //Путь к папке, лежащей в "Мои документы", где будет храниться файл NoteApp.notes
-            string defaultPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/NoteApp/";
-
             //Сохранение файла
             Project serialize = new Project {Notes = {note}};
-            ProjectManager.SaveToFile(serialize, defaultPath);
+            ProjectManager.SaveToFile(serialize, ProjectManager.FileName);
 
             //Загрузка из файла
-            Project deserialize = ProjectManager.LoadFromFile(defaultPath);
+            Project deserialize = ProjectManager.LoadFromFile(ProjectManager.FileName);
         }
     }
 }

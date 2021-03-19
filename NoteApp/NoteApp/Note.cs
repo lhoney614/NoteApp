@@ -44,7 +44,7 @@ namespace NoteApp
         }
 
         /// <summary>
-        /// Название заметки
+        /// Возвращает или задает значения "Название заметки"
         /// </summary>
         public string Title
         {
@@ -60,7 +60,7 @@ namespace NoteApp
                     throw new ArgumentException("Длина названия не должна превышать 50 символов");
                 }
 
-                if (value != String.Empty)
+                if (value != string.Empty)
                 {
                     _title = value;
                 }
@@ -70,7 +70,7 @@ namespace NoteApp
         }
 
         ///<summary>
-        /// Категория заметки
+        ///Возвращает или задает значения "Категория заметки"
         ///</summary>
         public NoteCategory Category
         {
@@ -87,7 +87,7 @@ namespace NoteApp
         }
 
         /// <summary>
-        /// Текст заметки
+        /// Возвращает или задает значения "Текст заметки"
         /// </summary>
         public string Text
         {
@@ -104,7 +104,7 @@ namespace NoteApp
         }
 
         /// <summary>
-        /// Время создания заметки
+        /// Возвращает значения "Время создания заметки"
         /// </summary>
         public DateTime IsCreated
         {
@@ -115,7 +115,7 @@ namespace NoteApp
         }
 
         /// <summary>
-        /// Время последнего изменения заметки
+        /// Возвращает или задает значения "Время последнего изменения"
         /// </summary>
         public DateTime IsChanged
         {
@@ -129,11 +129,11 @@ namespace NoteApp
                 _isChanged = DateTime.Now;
             }
         }
-
+        
         /// <summary>
-        /// Метод клонирования объекта
+        /// <inheritdoc cref="ICloneable"/>
         /// </summary>
-        /// <returns>Возвращение копии объекта</returns>
+        /// <returns>Возвращает копию объекта</returns>
         public object Clone()
         {
             return new Note(DateTime.Now)
