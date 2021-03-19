@@ -67,6 +67,10 @@ namespace NoteApp
                     }
                 }
             }
+            else
+            {
+                throw new ArgumentException("Файл не существует");
+            }
             
             return project;
         }

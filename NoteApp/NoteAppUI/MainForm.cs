@@ -10,7 +10,7 @@ namespace NoteAppUI
     public partial class MainForm : Form
     {
         private Project _project = new Project();
-        Note note = new Note();
+        private Note _note = new Note();
 
         public MainForm()
         {
@@ -21,8 +21,8 @@ namespace NoteAppUI
             label1.Text = "";
 
             //Отображение времени создания и изменения заметки
-            textBox3.Text = note.IsCreated.ToLongTimeString();
-            textBox4.Text = note.IsChanged.ToLongTimeString();
+            textBox3.Text = "";
+            textBox4.Text = "";
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace NoteAppUI
             //Заносится название заметки
             try
             {
-                note.Title = textBox1.Text;
+                _note.Title = textBox1.Text;
                 label1.Text = "";
             }
             catch (ArgumentException exception)
@@ -45,32 +45,49 @@ namespace NoteAppUI
             }
             
             //Заносится содержимое заметки
-            note.Text = textBox2.Text;
+            _note.Text = textBox2.Text;
 
             //Меняет значение категории заметки
-            note.Category = (NoteCategory)Enum.Parse(typeof(NoteCategory), comboBox1.Text);
+            _note.Category = (NoteCategory)Enum.Parse(typeof(NoteCategory), comboBox1.Text);
+
+            //Время создания появляется
+            textBox3.Text = _note.IsCreated.ToLongTimeString();
 
             //Время последнего изменения обновляется
-            textBox4.Text = note.IsChanged.ToLongTimeString();
+            textBox4.Text = _note.IsChanged.ToLongTimeString();
 
-            _project.Notes.Add(note);
+            _project.Notes.Add(_note);
 
             //Сохранение файла
             ProjectManager.SaveToFile(_project, ProjectManager.FileName);
         }
 
+        /// <summary>
+        /// Обработка события нажатия на кнопку "Load"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button2_Click(object sender, EventArgs e)
         {
-            //Загрузка из файла
-            _project = ProjectManager.LoadFromFile(ProjectManager.FileName);
-            note = _project.Notes[0];
+            try
+            {
+                //Загрузка из файла
+                _project = ProjectManager.LoadFromFile(ProjectManager.FileName);
+                _note = _project.Notes[0];
 
-            comboBox1.SelectedItem = note.Category;
+                comboBox1.SelectedItem = _note.Category;
 
-            textBox1.Text = note.Title;
-            textBox2.Text = note.Text;
-            textBox3.Text = note.IsCreated.ToLongTimeString();
-            textBox4.Text = note.IsChanged.ToLongTimeString();
+                textBox1.Text = _note.Title;
+                textBox2.Text = _note.Text;
+                textBox3.Text = _note.IsCreated.ToLongTimeString();
+                textBox4.Text = _note.IsChanged.ToLongTimeString();
+            }
+            catch (Exception exception)
+            {
+                label1.Text = exception.Message;
+                label1.ForeColor = Color.Red;
+            }
+            
         }
     }
 }
