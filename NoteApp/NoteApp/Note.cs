@@ -37,11 +37,7 @@ namespace NoteApp
         /// <summary>
         /// Инициализация заметки
         /// </summary>
-        /// <param name="dateTime">Время изменения</param>
-        public Note(DateTime dateTime)
-        {
-            this.IsChanged = dateTime;
-        }
+        public Note() { }
 
         /// <summary>
         /// Возвращает или задает значения "Название заметки"
@@ -136,7 +132,7 @@ namespace NoteApp
         /// <returns>Возвращает копию объекта</returns>
         public object Clone()
         {
-            return new Note(DateTime.Now)
+            return new Note()
             {
                 Title = this._title,
                 Text = this._text,
