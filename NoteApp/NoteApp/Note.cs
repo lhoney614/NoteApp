@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 namespace NoteApp
 {
@@ -26,7 +27,7 @@ namespace NoteApp
         /// <summary>
         /// Время создания заметки. По умолчанию: только для чтения
         /// </summary>
-        private readonly DateTime _isCreated = DateTime.Now;
+        private DateTime _isCreated = DateTime.Now;
 
         /// <summary>
         /// Время изменения файла
@@ -88,7 +89,37 @@ namespace NoteApp
         /// <summary>
         /// Возвращает значения "Время создания заметки"
         /// </summary>
-        public DateTime IsCreated => _isCreated;
+        public DateTime IsCreated
+        {
+            get => _isCreated;
+            private set => _isCreated = value;
+        }
+
+        /// <summary>
+        /// Конструктор класса Note
+        /// </summary>
+        public Note()
+        {
+
+        }
+
+        /// <summary>
+        /// Конструктор класса Note для сериализации
+        /// </summary>
+        /// <param name="title">Не более 50 символов</param>
+        /// <param name="category"></param>
+        /// <param name="text"></param>
+        /// <param name="isCreated"></param>
+        /// <param name="isChanged"></param>
+        [JsonConstructor]
+        public Note(string title, NoteCategory category, string text, DateTime isCreated, DateTime isChanged)
+        {
+            Title = title;
+            Category = category;
+            Text = text;
+            IsCreated = isCreated;
+            IsChanged = isChanged;
+        }
 
         /// <summary>
         /// Возвращает или задает значения "Время последнего изменения"
@@ -97,7 +128,7 @@ namespace NoteApp
         {
             get => _isChanged;
 
-            private set => _isChanged = DateTime.Now;
+            private set => _isChanged = value;
         }
         
         /// <summary>

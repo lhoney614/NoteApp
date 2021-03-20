@@ -8,7 +8,8 @@ namespace NoteAppUI
 {
     public partial class MainForm : Form
     {
-        private Note _note;
+        private Project _project = new Project();
+        private Note _note = new Note();
 
         public MainForm()
         {
@@ -21,6 +22,9 @@ namespace NoteAppUI
             //Отображение времени создания и изменения заметки
             textBox3.Text = "";
             textBox4.Text = "";
+
+            //Добавляем созданный объект в конец списка Notes
+            _project.Notes.Add(_note);
         }
 
         /// <summary>
@@ -30,7 +34,6 @@ namespace NoteAppUI
         /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
-            _note = new Note();
             //Заносится название заметки
             try
             {
@@ -55,12 +58,10 @@ namespace NoteAppUI
             //Время последнего изменения обновляется
             textBox4.Text = _note.IsChanged.ToLongTimeString();
 
-            //Добавляем созданный объект в конец списка Notes
-            var project = new Project();
-            project.Notes.Add(_note);
+            
 
             //Сохранение файла
-            ProjectManager.SaveToFile(project, ProjectManager.FileName);
+            ProjectManager.SaveToFile(_project, ProjectManager.FileName);
         }
 
         /// <summary>
@@ -73,9 +74,9 @@ namespace NoteAppUI
             try
             {
                 //Загрузка из файла
-                var project = ProjectManager.LoadFromFile(ProjectManager.FileName);
+                _project = ProjectManager.LoadFromFile(ProjectManager.FileName);
 
-                _note = project.Notes[0];
+                _note = _project.Notes[0];
 
                 comboBox1.SelectedItem = _note.Category;
 

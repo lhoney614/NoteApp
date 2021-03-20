@@ -29,7 +29,9 @@ namespace NoteApp
             
             if (!Directory.Exists(Path.GetDirectoryName(filename)))
             {
-                Directory.CreateDirectory(Path.GetDirectoryName(filename) ?? throw new InvalidOperationException());
+                var path = Path.GetDirectoryName(filename) ?? 
+                           throw new InvalidOperationException();
+                Directory.CreateDirectory(path);
             }
 
             //Открывается поток для записи в файл с указанием пути
