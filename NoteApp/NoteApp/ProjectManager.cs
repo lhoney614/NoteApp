@@ -25,17 +25,17 @@ namespace NoteApp
         public static void SaveToFile(Project project, string filename)
         {
             //Создается экземпляр сериализатора
-            JsonSerializer serializer = new JsonSerializer();
+            var serializer = new JsonSerializer();
             
             if (!Directory.Exists(Path.GetDirectoryName(filename)))
             {
-                Directory.CreateDirectory(Path.GetDirectoryName(filename));
+                Directory.CreateDirectory(Path.GetDirectoryName(filename) ?? throw new InvalidOperationException());
             }
 
             //Открывается поток для записи в файл с указанием пути
-            using (StreamWriter writer = new StreamWriter(filename))
+            using (var writer = new StreamWriter(filename))
             {
-                using (JsonTextWriter textWriter = new JsonTextWriter(writer))
+                using (var textWriter = new JsonTextWriter(writer))
                 {
                     //Вызывается сериализация и передается файл, 
                     //который нужно сериализовать
@@ -53,17 +53,17 @@ namespace NoteApp
         {
             //Создается переменная, которая будет хранить
             //результат десериализации
-            Project project = null;
+            Project project;
 
             if (File.Exists(filename))
             {
                 //Создается экземпляр сериализатора
-                JsonSerializer serializer = new JsonSerializer();
+                var serializer = new JsonSerializer();
 
                 //Открывается поток для чтения из файла с указанием пути
-                using (StreamReader reader = new StreamReader(filename))
+                using (var reader = new StreamReader(filename))
                 {
-                    using (JsonTextReader textReader = new JsonTextReader(reader))
+                    using (var textReader = new JsonTextReader(reader))
                     {
                         //Вызывается десериализация и явно
                         //преобразуется результат в целевой тип данных

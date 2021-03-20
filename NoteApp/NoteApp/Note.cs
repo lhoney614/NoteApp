@@ -35,11 +35,6 @@ namespace NoteApp
 
 
         /// <summary>
-        /// Инициализация заметки
-        /// </summary>
-        public Note() { }
-
-        /// <summary>
         /// Возвращает или задает значения "Название заметки"
         /// </summary>
         public string Title
