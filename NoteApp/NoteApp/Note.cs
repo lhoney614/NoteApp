@@ -44,10 +44,7 @@ namespace NoteApp
         /// </summary>
         public string Title
         {
-            get
-            {
-                return _title;
-            }
+            get => _title;
 
             set
             {
@@ -70,10 +67,7 @@ namespace NoteApp
         ///</summary>
         public NoteCategory Category
         {
-            get
-            {
-                return _category;
-            }
+            get => _category;
 
             set
             {
@@ -87,10 +81,7 @@ namespace NoteApp
         /// </summary>
         public string Text
         {
-            get
-            {
-                return _text;
-            }
+            get => _text;
 
             set
             {
@@ -102,28 +93,16 @@ namespace NoteApp
         /// <summary>
         /// Возвращает значения "Время создания заметки"
         /// </summary>
-        public DateTime IsCreated
-        {
-            get
-            {
-                return _isCreated;
-            }
-        }
+        public DateTime IsCreated => _isCreated;
 
         /// <summary>
         /// Возвращает или задает значения "Время последнего изменения"
         /// </summary>
         public DateTime IsChanged
         {
-            get
-            {
-                return _isChanged;
-            }
+            get => _isChanged;
 
-            set
-            {
-                _isChanged = DateTime.Now;
-            }
+            private set => _isChanged = DateTime.Now;
         }
         
         /// <summary>

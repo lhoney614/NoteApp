@@ -56,6 +56,7 @@ namespace NoteAppUI
             //Время последнего изменения обновляется
             textBox4.Text = _note.IsChanged.ToLongTimeString();
 
+            //Добавляем созданный объект в конец списка Notes
             _project.Notes.Add(_note);
 
             //Сохранение файла
@@ -73,6 +74,7 @@ namespace NoteAppUI
             {
                 //Загрузка из файла
                 _project = ProjectManager.LoadFromFile(ProjectManager.FileName);
+
                 _note = _project.Notes[0];
 
                 comboBox1.SelectedItem = _note.Category;

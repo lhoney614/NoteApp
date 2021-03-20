@@ -4,13 +4,17 @@ using Newtonsoft.Json;
 
 namespace NoteApp
 {
+    /// <summary>
+    /// Реализация метода для сохранения объекта "Проект" в файл
+    /// и загрузки проекта из файла
+    /// </summary>
     public static class ProjectManager
     {
         /// <summary>
         /// Название файла для сохранений и загрузки
         /// </summary>
-        public static readonly string FileName = 
-            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) 
+        public static readonly string FileName =
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
             + "/NoteApp/NoteApp.notes";
 
         /// <summary>
@@ -22,6 +26,11 @@ namespace NoteApp
         {
             //Создается экземпляр сериализатора
             JsonSerializer serializer = new JsonSerializer();
+            
+            if (!Directory.Exists(Path.GetDirectoryName(filename)))
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(filename));
+            }
 
             //Открывается поток для записи в файл с указанием пути
             using (StreamWriter writer = new StreamWriter(filename))
@@ -69,7 +78,7 @@ namespace NoteApp
             }
             else
             {
-                throw new ArgumentException("Файл не существует");
+                return new Project();
             }
             
             return project;
