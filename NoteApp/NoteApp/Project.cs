@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace NoteApp
 {
@@ -10,6 +11,6 @@ namespace NoteApp
         /// <summary>
         /// Возвращает список текущих заметок
         /// </summary>
-        public List<Note> Notes { get; private set; } = new List<Note>();
+        public BindingList<Note> Notes { get; private set; } = new BindingList<Note>();
     }
 }
