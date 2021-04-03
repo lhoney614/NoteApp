@@ -48,6 +48,8 @@
             // 
             // TitleBox
             // 
+            this.TitleBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.TitleBox.Location = new System.Drawing.Point(94, 21);
             this.TitleBox.Name = "TitleBox";
             this.TitleBox.Size = new System.Drawing.Size(345, 22);
@@ -92,6 +94,8 @@
             // 
             // CategoryComboBox
             // 
+            this.CategoryComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.CategoryComboBox.FormattingEnabled = true;
             this.CategoryComboBox.Location = new System.Drawing.Point(94, 63);
             this.CategoryComboBox.Name = "CategoryComboBox";
@@ -101,6 +105,8 @@
             // 
             // TimeCreatedComboBox
             // 
+            this.TimeCreatedComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.TimeCreatedComboBox.Enabled = false;
             this.TimeCreatedComboBox.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.TimeCreatedComboBox.Location = new System.Drawing.Point(94, 106);
@@ -110,6 +116,8 @@
             // 
             // TimeChangedComboBox
             // 
+            this.TimeChangedComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.TimeChangedComboBox.Enabled = false;
             this.TimeChangedComboBox.FormattingEnabled = true;
             this.TimeChangedComboBox.Location = new System.Drawing.Point(94, 146);
@@ -120,7 +128,7 @@
             // OKButton
             // 
             this.OKButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.OKButton.Location = new System.Drawing.Point(727, 437);
+            this.OKButton.Location = new System.Drawing.Point(751, 455);
             this.OKButton.Name = "OKButton";
             this.OKButton.Size = new System.Drawing.Size(91, 37);
             this.OKButton.TabIndex = 8;
@@ -131,7 +139,7 @@
             // CancelButton
             // 
             this.CancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.CancelButton.Location = new System.Drawing.Point(848, 437);
+            this.CancelButton.Location = new System.Drawing.Point(872, 455);
             this.CancelButton.Name = "CancelButton";
             this.CancelButton.Size = new System.Drawing.Size(91, 37);
             this.CancelButton.TabIndex = 9;
@@ -149,13 +157,14 @@
             this.TextBox.Multiline = true;
             this.TextBox.Name = "TextBox";
             this.TextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.TextBox.Size = new System.Drawing.Size(919, 411);
+            this.TextBox.Size = new System.Drawing.Size(943, 429);
             this.TextBox.TabIndex = 10;
             this.TextBox.TextChanged += new System.EventHandler(this.TextBox_TextChanged);
             // 
             // splitContainer1
             // 
-            this.splitContainer1.Location = new System.Drawing.Point(12, 12);
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -175,8 +184,8 @@
             this.splitContainer1.Panel2.Controls.Add(this.TextBox);
             this.splitContainer1.Panel2.Controls.Add(this.CancelButton);
             this.splitContainer1.Panel2.Controls.Add(this.OKButton);
-            this.splitContainer1.Size = new System.Drawing.Size(958, 679);
-            this.splitContainer1.SplitterDistance = 198;
+            this.splitContainer1.Size = new System.Drawing.Size(982, 703);
+            this.splitContainer1.SplitterDistance = 204;
             this.splitContainer1.TabIndex = 11;
             // 
             // EditForm

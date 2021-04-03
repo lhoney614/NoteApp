@@ -197,90 +197,60 @@ namespace NoteAppUI
         }
 
         /// <summary>
-        /// Обработка события на кнопку "File"
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void FileButton_Click(object sender, EventArgs e)
-        {
-           FileButton.ContextMenuStrip.Show(FileButton, new System.Drawing.Point(0, 20));
-        }
-
-
-        /// <summary>
-        /// Обработка события нажатия на кнопку "Edit"
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void EditButton_Click(object sender, EventArgs e)
-        {
-            EditButton.ContextMenuStrip.Show(EditButton, new System.Drawing.Point(0, 20));
-        }
-
-        /// <summary>
-        /// Обработка события нажатия на кнопку "Help"
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void HelpAboutButton_Click(object sender, EventArgs e)
-        {
-            HelpAboutButton.ContextMenuStrip.Show(HelpAboutButton, new System.Drawing.Point(0, 20));
-        }
-
-        /// <summary>
-        /// Обработка события выбора содержимого ToolStripMenuItem
+        /// Обработка события выбора содержимого StripMenu
         /// варианта "Exit"
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        private void exitToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        /// <summary>
-        /// Обработка события выбора содержимого ToolStripMenuItem
-        /// варианта "About"
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AboutForm aboutForm = new AboutForm();
-            aboutForm.Show();
-        }
 
         /// <summary>
-        /// Обработка события выбора содержимого ToolStripMenuItem
+        /// Обработка события выбора содержимого StripMenu
         /// варианта "Add Note"
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void addNoteToolStripMenuItem_Click(object sender, EventArgs e)
+        private void addNoteToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             AddNote();
         }
 
         /// <summary>
-        /// Обработка события выбора содержимого ToolStripMenuItem
+        /// Обработка события выбора содержимого StripMenu
         /// варианта "Edit Note"
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void editNoteToolStripMenuItem_Click(object sender, EventArgs e)
+        private void editNoteToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             EditNote();
         }
 
         /// <summary>
-        /// Обработка события выбора содержимого ToolStripMenuItem
+        /// Обработка события выбора содержимого StripMenu
         /// варианта "Remove Note"
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void removeNoteToolStripMenuItem_Click(object sender, EventArgs e)
+        private void removeNoteToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             RemoveNote();
+        }
+
+        /// <summary>
+        /// Обработка события выбора содержимого StripMenu
+        /// варианта "About"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void helpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AboutForm aboutForm = new AboutForm();
+            aboutForm.Show();
         }
     }
 }
