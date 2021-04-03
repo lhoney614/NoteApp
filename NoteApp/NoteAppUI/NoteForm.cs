@@ -79,10 +79,10 @@ namespace NoteAppUI
             {
                 _note.Title = TitleBox.Text;
             }
-            catch (Exception exception)
+            catch
             {
                 //Обработка исключения, если длина названия больше 50 символов
-                MessageBox.Show(exception.Message);
+                TitleBox.BackColor = Color.LightCoral;
             }
         }
 
@@ -115,7 +115,7 @@ namespace NoteAppUI
         {
             if (TitleBox.Text.Length > 50)
             {
-                TitleBox.BackColor = Color.LightCoral;
+                MessageBox.Show(@"Длина названия не должна превышать 50 символов");
                 return;
             }
             this.DialogResult = DialogResult.OK;
