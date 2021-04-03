@@ -11,7 +11,8 @@ namespace NoteAppUI
     public partial class NoteForm : Form
     {
         /// <summary>
-        /// 
+        /// Создание локальной переменной типа Note
+        /// Исопльзуется для создания и изменения заметки
         /// </summary>
         private Note _note = new Note();
 

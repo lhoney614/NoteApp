@@ -11,7 +11,17 @@ namespace NoteAppUI
     /// </summary>
     public partial class MainForm : Form
     {
+        /// <summary>
+        /// Создание переменной типа Project
+        /// Предназначена для  загрузки из файла
+        /// и последующего сохранения в файл всех заметок
+        /// </summary>
         private readonly Project _project;
+
+        /// <summary>
+        /// Переменная, являющаяся источником данных
+        /// всех заметок для NotesListBox
+        /// </summary>
         private BindingList<Note> _notes;
 
         /// <summary>
@@ -30,8 +40,7 @@ namespace NoteAppUI
 
             //Занесение списка заметок в компонент NotesListBox
             //с помощью привязки данных
-            _notes = new BindingList<Note>(_project.Notes);
-            NotesListBox.DataSource = _notes;
+            UpdateNotesListBox();
             NotesListBox.DisplayMember = "Title";
         }
 
@@ -69,7 +78,6 @@ namespace NoteAppUI
                 var addedNote = addForm.Note;
                 
                 _project.Notes.Add(addedNote);
-                UpdateNotesListBox();
 
             }
             else return;
@@ -114,11 +122,8 @@ namespace NoteAppUI
 
                     //Вставка измененной заметки в список с
                     //последующим удалением старой версии заметки
-                    _project.Notes.Insert(selectedIndex, editedNote);
                     _project.Notes.RemoveAt(selectedIndex + 1);
-
-                    //Обновление списка заметок
-                    UpdateNotesListBox();
+                    _project.Notes.Insert(selectedIndex, editedNote);
                 }
 
                 else return;
@@ -161,9 +166,8 @@ namespace NoteAppUI
             //Обработка положительного ответа
             if (dialogResult == DialogResult.OK)
             {
-                //Удаление заметки и обновление списка заметок
+                //Удаление заметки
                 _project.Notes.RemoveAt(selectedIndex);
-                UpdateNotesListBox();
             }
             
             ProjectManager.SaveToFile(_project, ProjectManager.FileName);
