@@ -53,18 +53,18 @@ namespace NoteAppUI
 
         /// <summary>
         /// Реализация алгоритма создания новой заметки
-        /// через форму EditForm
+        /// через форму NoteForm
         /// </summary>
         private void AddNote()
         {
             //Создание экземпляра формы EditNote
-            var addForm = new EditForm();
+            var addForm = new NoteForm();
             addForm.ShowDialog();
 
-            //Обработка закрытия формы EditForm
+            //Обработка закрытия формы NoteForm
             if (addForm.DialogResult == DialogResult.OK)
             {
-                //Передача данных из формы EditForm в форму MainForm
+                //Передача данных из формы NoteForm в форму MainForm
                 //Обновление списка заметок
                 var addedNote = addForm.Note;
                 
@@ -103,8 +103,8 @@ namespace NoteAppUI
             {
                 var selectedNote = _project.Notes[selectedIndex];
 
-                //Передача форме EditForm данных выбранной заметки
-                var editForm = new EditForm {Note = selectedNote};
+                //Передача форме NoteForm данных выбранной заметки
+                var editForm = new NoteForm {Note = selectedNote};
                 editForm.ShowDialog();
 
                 //Обработка закрытия формы EditNote
@@ -180,20 +180,21 @@ namespace NoteAppUI
             var selectedNote = (Note)NotesListBox.SelectedItem;
 
             //Обработка события, если список пуст
-            if (selectedNote == null)
+            if (NotesListBox.SelectedItem == null)
             {
                 TitleLabel.Text = @"Без названия";
+                SelectedCategoryLabel.Text = @"";
                 TextBox.Text = @"";
-                TimeCreatedLabel.Text = @"";
-                TimeChangedLabel.Text = @"";
+                TimeCreated.Text = @"";
+                TimeChanged.Text = @"";
                 return;
             }
 
             TitleLabel.Text = selectedNote.Title;
             SelectedCategoryLabel.Text = selectedNote.Category.ToString();
             TextBox.Text = selectedNote.Text;
-            TimeCreatedLabel.Text = selectedNote.IsCreated.ToShortDateString() + @" " + selectedNote.IsCreated.ToLongTimeString();
-            TimeChangedLabel.Text = selectedNote.IsChanged.ToShortDateString() + @" " + selectedNote.IsChanged.ToLongTimeString();
+            TimeCreated.Text = selectedNote.IsCreated.ToShortDateString() + @" " + selectedNote.IsCreated.ToLongTimeString();
+            TimeChanged.Text = selectedNote.IsChanged.ToShortDateString() + @" " + selectedNote.IsChanged.ToLongTimeString();
         }
 
         /// <summary>

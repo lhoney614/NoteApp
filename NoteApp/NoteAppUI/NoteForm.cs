@@ -1,14 +1,18 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 using NoteApp;
 
 namespace NoteAppUI
 {
     /// <summary>
-    /// Форма EditForm, выполняющая редактирование и добавление заметки
+    /// Форма NoteForm, выполняющая редактирование и добавление заметки
     /// </summary>
-    public partial class EditForm : Form
+    public partial class NoteForm : Form
     {
+        /// <summary>
+        /// 
+        /// </summary>
         private Note _note = new Note();
 
         /// <summary>
@@ -25,9 +29,9 @@ namespace NoteAppUI
         }
 
         /// <summary>
-        /// Загрузка формы EditForm
+        /// Загрузка формы NoteForm
         /// </summary>
-        public EditForm()
+        public NoteForm()
         {
             InitializeComponent();
 
@@ -108,6 +112,11 @@ namespace NoteAppUI
         /// <param name="e"></param>
         private void OKButton_Click(object sender, EventArgs e)
         {
+            if (TitleBox.Text.Length > 50)
+            {
+                TitleBox.BackColor = Color.LightCoral;
+                return;
+            }
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
