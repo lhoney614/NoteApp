@@ -4,81 +4,123 @@ using NoteApp;
 
 namespace NoteAppUI
 {
+    /// <summary>
+    /// Форма EditForm, выполняющая редактирование и добавление заметки
+    /// </summary>
     public partial class EditForm : Form
     {
-        private Note _noteData = new Note();
+        private Note _note = new Note();
 
-        public Note NoteData
+        /// <summary>
+        /// Создание доступной для другой формы переменной типа Note
+        /// </summary>
+        public Note Note
         {
-            get => _noteData;
+            get => _note;
             set
             {
-                _noteData = value;
+                _note = value;
                 DisplayNote();
             }
         }
 
+        /// <summary>
+        /// Загрузка формы EditForm
+        /// </summary>
         public EditForm()
         {
             InitializeComponent();
+
             //Источником данных для списка является класс-перечисление "Категория заметки"
             CategoryComboBox.DataSource = Enum.GetValues(typeof(NoteCategory));
         }
 
+        /// <summary>
+        /// Реализация отображения содержимого формы EditNote
+        /// в зависимости от содержимого переданной заметки:
+        /// либо для редактирования, либо создание новой
+        /// </summary>
         public void DisplayNote()
         {
-            if (_noteData == null)
+            //Обработка передачи пустой заметки для ее создания
+            if (_note == null)
             {
                 TimeCreatedComboBox.Text = DateTime.Now.ToShortDateString() +
                                            @" " + DateTime.Now.ToLongTimeString();
                 TimeChangedComboBox.Text = DateTime.Now.ToShortDateString() +
                                            @" " + DateTime.Now.ToLongTimeString();
                 TitleBox.Text = @"Без названия";
+                return;
             }
 
-            TitleBox.Text = _noteData.Title;
-            TextBox.Text = _noteData.Text;
-            CategoryComboBox.SelectedItem = _noteData.Category;
-            TimeCreatedComboBox.Text = _noteData.IsCreated.ToShortDateString() +
-                             @" " + _noteData.IsCreated.ToLongTimeString();
-            TimeChangedComboBox.Text = _noteData.IsChanged.ToShortDateString() +
-                             @" " + _noteData.IsChanged.ToLongTimeString();
+            //Обработка передачи заметки для редактирования
+            TitleBox.Text = _note.Title;
+            TextBox.Text = _note.Text;
+            CategoryComboBox.SelectedItem = _note.Category;
+            TimeCreatedComboBox.Text = _note.IsCreated.ToShortDateString() +
+                             @" " + _note.IsCreated.ToLongTimeString();
+            TimeChangedComboBox.Text = _note.IsChanged.ToShortDateString() +
+                             @" " + _note.IsChanged.ToLongTimeString();
         }
 
+        /// <summary>
+        /// Изменения содержимого TitleBox
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TitleBox_TextChanged(object sender, EventArgs e)
         {
             try
             {
-                _noteData.Title = TitleBox.Text;
+                _note.Title = TitleBox.Text;
             }
             catch (Exception exception)
             {
+                //Обработка исключения, если длина названия больше 50 символов
                 MessageBox.Show(exception.Message);
             }
         }
 
+        /// <summary>
+        /// Изменене выбранного элемента CategoryComboBox
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CategoryComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            _noteData.Category = (NoteCategory)CategoryComboBox.SelectedItem;
+            _note.Category = (NoteCategory)CategoryComboBox.SelectedItem;
         }
 
+        /// <summary>
+        /// Изменения содержимого TextBox
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TextBox_TextChanged(object sender, EventArgs e)
         {
-            _noteData.Text = TextBox.Text;
+            _note.Text = TextBox.Text;
         }
 
+        /// <summary>
+        /// Обработка события нажатия на кнопку "ОК"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OKButton_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
 
+        /// <summary>
+        /// Обработка события нажатия на кнопку "Cancel"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CancelButton_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
-
-        
     }
 }
