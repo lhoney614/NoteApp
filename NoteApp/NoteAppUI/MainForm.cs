@@ -209,6 +209,7 @@ namespace NoteAppUI
         /// <param name="e"></param>
         private void exitToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            ProjectManager.SaveToFile(_project, ProjectManager.FileName);
             this.Close();
         }
 
