@@ -42,6 +42,8 @@
             this.SelectedCategoryLabel = new System.Windows.Forms.Label();
             this.TextBox = new System.Windows.Forms.TextBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.TimeChanged = new System.Windows.Forms.DateTimePicker();
+            this.TimeCreated = new System.Windows.Forms.DateTimePicker();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -51,8 +53,6 @@
             this.removeNoteToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.TimeCreated = new System.Windows.Forms.DateTimePicker();
-            this.TimeChanged = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -91,7 +91,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(8, 62);
+            this.label5.Location = new System.Drawing.Point(8, 59);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(62, 17);
             this.label5.TabIndex = 10;
@@ -100,7 +100,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(277, 62);
+            this.label6.Location = new System.Drawing.Point(277, 59);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(65, 17);
             this.label6.TabIndex = 11;
@@ -221,6 +221,22 @@
             this.splitContainer1.SplitterDistance = 304;
             this.splitContainer1.TabIndex = 23;
             // 
+            // TimeChanged
+            // 
+            this.TimeChanged.Enabled = false;
+            this.TimeChanged.Location = new System.Drawing.Point(348, 57);
+            this.TimeChanged.Name = "TimeChanged";
+            this.TimeChanged.Size = new System.Drawing.Size(168, 22);
+            this.TimeChanged.TabIndex = 20;
+            // 
+            // TimeCreated
+            // 
+            this.TimeCreated.Enabled = false;
+            this.TimeCreated.Location = new System.Drawing.Point(76, 57);
+            this.TimeCreated.Name = "TimeCreated";
+            this.TimeCreated.Size = new System.Drawing.Size(168, 22);
+            this.TimeCreated.TabIndex = 19;
+            // 
             // menuStrip1
             // 
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
@@ -294,22 +310,6 @@
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(116, 26);
             this.helpToolStripMenuItem.Text = "Help";
             this.helpToolStripMenuItem.Click += new System.EventHandler(this.helpToolStripMenuItem_Click);
-            // 
-            // TimeCreated
-            // 
-            this.TimeCreated.Enabled = false;
-            this.TimeCreated.Location = new System.Drawing.Point(76, 57);
-            this.TimeCreated.Name = "TimeCreated";
-            this.TimeCreated.Size = new System.Drawing.Size(168, 22);
-            this.TimeCreated.TabIndex = 19;
-            // 
-            // TimeChanged
-            // 
-            this.TimeChanged.Enabled = false;
-            this.TimeChanged.Location = new System.Drawing.Point(348, 57);
-            this.TimeChanged.Name = "TimeChanged";
-            this.TimeChanged.Size = new System.Drawing.Size(168, 22);
-            this.TimeChanged.TabIndex = 20;
             // 
             // MainForm
             // 

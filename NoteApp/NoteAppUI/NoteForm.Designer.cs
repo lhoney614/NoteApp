@@ -92,7 +92,7 @@
             this.CategoryComboBox.FormattingEnabled = true;
             this.CategoryComboBox.Location = new System.Drawing.Point(90, 40);
             this.CategoryComboBox.Name = "CategoryComboBox";
-            this.CategoryComboBox.Size = new System.Drawing.Size(155, 24);
+            this.CategoryComboBox.Size = new System.Drawing.Size(208, 24);
             this.CategoryComboBox.TabIndex = 5;
             this.CategoryComboBox.SelectedIndexChanged += new System.EventHandler(this.CategoryComboBox_SelectedIndexChanged);
             // 
@@ -102,7 +102,7 @@
             this.TimeCreatedComboBox.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.TimeCreatedComboBox.Location = new System.Drawing.Point(90, 70);
             this.TimeCreatedComboBox.Name = "TimeCreatedComboBox";
-            this.TimeCreatedComboBox.Size = new System.Drawing.Size(155, 24);
+            this.TimeCreatedComboBox.Size = new System.Drawing.Size(208, 24);
             this.TimeCreatedComboBox.TabIndex = 6;
             // 
             // TimeChangedComboBox
@@ -111,7 +111,7 @@
             this.TimeChangedComboBox.FormattingEnabled = true;
             this.TimeChangedComboBox.Location = new System.Drawing.Point(90, 100);
             this.TimeChangedComboBox.Name = "TimeChangedComboBox";
-            this.TimeChangedComboBox.Size = new System.Drawing.Size(155, 24);
+            this.TimeChangedComboBox.Size = new System.Drawing.Size(208, 24);
             this.TimeChangedComboBox.TabIndex = 7;
             // 
             // OKButton

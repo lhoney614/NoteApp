@@ -114,10 +114,13 @@ namespace NoteAppUI
         /// <param name="e"></param>
         private void OKButton_Click(object sender, EventArgs e)
         {
-            if (TitleBox.Text.Length > 50)
+            try
             {
-                MessageBox.Show(@"Длина названия не должна превышать 50 символов", 
-                    @"Неверное значение");
+                _note.Title = TitleBox.Text;
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message);
                 return;
             }
             this.DialogResult = DialogResult.OK;

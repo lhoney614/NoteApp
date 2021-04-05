@@ -122,7 +122,7 @@ namespace NoteAppUI
 
                     //Вставка измененной заметки в список с
                     //последующим удалением старой версии заметки
-                    _project.Notes.RemoveAt(selectedIndex + 1);
+                    _project.Notes.RemoveAt(selectedIndex);
                     _project.Notes.Insert(selectedIndex, editedNote);
                 }
 
@@ -197,8 +197,13 @@ namespace NoteAppUI
             TitleLabel.Text = selectedNote.Title;
             SelectedCategoryLabel.Text = selectedNote.Category.ToString();
             TextBox.Text = selectedNote.Text;
-            TimeCreated.Text = selectedNote.IsCreated.ToShortDateString() + @" " + selectedNote.IsCreated.ToLongTimeString();
-            TimeChanged.Text = selectedNote.IsChanged.ToShortDateString() + @" " + selectedNote.IsChanged.ToLongTimeString();
+            TimeCreated.Text = ToFormattedTime(selectedNote.IsCreated);
+            TimeChanged.Text = ToFormattedTime(selectedNote.IsChanged);
+        }
+
+        private string ToFormattedTime(DateTime time)
+        {
+            return time.ToShortDateString() + @" " + time.ToLongTimeString();
         }
 
         /// <summary>
