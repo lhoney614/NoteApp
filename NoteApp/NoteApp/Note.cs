@@ -49,10 +49,7 @@ namespace NoteApp
                     throw new ArgumentException("Длина названия не должна превышать 50 символов");
                 }
 
-                if (value != string.Empty)
-                {
-                    _title = value;
-                }
+                _title = value != string.Empty ? value : "Без названия";
 
                 IsChanged = DateTime.Now;
             }
