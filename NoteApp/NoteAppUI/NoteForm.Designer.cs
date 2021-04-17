@@ -186,7 +186,7 @@
         private System.Windows.Forms.ComboBox TimeCreatedComboBox;
         private System.Windows.Forms.ComboBox TimeChangedComboBox;
         private System.Windows.Forms.Button OKButton;
-        private System.Windows.Forms.Button CancelButton;
+        private new System.Windows.Forms.Button CancelButton;
         private System.Windows.Forms.TextBox TextBox;
     }
 }
