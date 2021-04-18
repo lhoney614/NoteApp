@@ -25,7 +25,10 @@ namespace NoteApp
         public static void SaveToFile(Project project, string filename)
         {
             //Создается экземпляр сериализатора
-            var serializer = new JsonSerializer();
+            var serializer = new JsonSerializer()
+            {
+                Formatting = Formatting.Indented
+            };
             
             if (!Directory.Exists(Path.GetDirectoryName(filename)))
             {
@@ -63,23 +66,29 @@ namespace NoteApp
                 var serializer = new JsonSerializer();
 
                 //Открывается поток для чтения из файла с указанием пути
-                using (var reader = new StreamReader(filename))
+                try
                 {
-                    using (var textReader = new JsonTextReader(reader))
+                    using (var reader = new StreamReader(filename))
                     {
-                        //Вызывается десериализация и явно
-                        //преобразуется результат в целевой тип данных
-                        project = serializer.Deserialize<Project>(textReader);
-
-                        if (project == null)
+                        using (var textReader = new JsonTextReader(reader))
                         {
-                            return new Project();
+                            //Вызывается десериализация и явно
+                            //преобразуется результат в целевой тип данных
+                            project = serializer.Deserialize<Project>(textReader);
                         }
                     }
+                }
+                catch
+                {
+                    //Если возникла ошибка при десериализации, 
+                    //то возвращается новый проект
+                    return new Project();
                 }
             }
             else
             {
+                //Если файла не существует, 
+                //то возвращается новый проект
                 return new Project();
             }
             

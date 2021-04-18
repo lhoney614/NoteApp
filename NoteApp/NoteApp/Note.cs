@@ -7,7 +7,7 @@ namespace NoteApp
     /// Хранит название, категорию и текст заметки,
     /// а также время ее создания и последнего изменения
     /// </summary>
-    public class Note : ICloneable
+    public class Note : ICloneable, IEquatable<Note>
     {
         /// <summary>
         /// Название заметки
@@ -89,7 +89,7 @@ namespace NoteApp
         public DateTime IsCreated
         {
             get => _isCreated;
-            private set => _isCreated = value;
+            set => _isCreated = value;
         }
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace NoteApp
         {
             get => _isChanged;
 
-            private set => _isChanged = value;
+            set => _isChanged = value;
         }
         
         /// <summary>
@@ -142,6 +142,42 @@ namespace NoteApp
                 IsChanged = this._isChanged
             };
         }
-        
+
+        public bool Equals(Note other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+
+            if (ReferenceEquals(this, other)) return true;
+
+            return _title == other._title
+                   && _category == other._category
+                   && _text == other._text
+                   && _isCreated.Equals(other._isCreated) 
+                   && _isChanged.Equals(other._isChanged);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+
+            if (ReferenceEquals(this, obj)) return true;
+
+            if (obj.GetType() != this.GetType()) return false;
+            
+            return Equals((Note) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = (_title != null ? _title.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (int) _category;
+                hashCode = (hashCode * 397) ^ (_text != null ? _text.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ _isCreated.GetHashCode();
+                hashCode = (hashCode * 397) ^ _isChanged.GetHashCode();
+                return hashCode;
+            }
+        }
     }
 }

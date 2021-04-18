@@ -44,8 +44,7 @@ namespace NoteApp.UnitTests
             var actual = _note.Title;
 
             //Сравниваем ожидаемое значение с тем, что получили
-            Assert.AreEqual(expected, actual,
-                "Геттер Title возвращает неправильное название заметки");
+            Assert.AreEqual(expected, actual);
         }
 
         /// <summary>
@@ -64,8 +63,7 @@ namespace NoteApp.UnitTests
             var actual = _note.Title;
 
             //Сравниваем ожидаемое значение с полученным
-            Assert.AreEqual(expected, actual,
-                "Геттер Title возвращает неверное название заметки при пустом значении");
+            Assert.AreEqual(expected, actual);
         }
 
         /// <summary>
@@ -85,8 +83,7 @@ namespace NoteApp.UnitTests
                 {
                     //Тестируемый код
                     _note.Title = source;
-                }, "Должно возникать исключение, если длина названия" +
-                   "более 50 символов");
+                });
         }
 
         /// <summary>
@@ -101,8 +98,7 @@ namespace NoteApp.UnitTests
 
             var actual = _note.Text;
 
-            Assert.AreEqual(expected, actual, 
-                "Геттер Text возвращает неправильное значение");
+            Assert.AreEqual(expected, actual);
         }
 
         /// <summary>
@@ -117,8 +113,7 @@ namespace NoteApp.UnitTests
 
             var actual = _note.IsCreated;
 
-            Assert.AreEqual(expected, actual, 
-                "Геттер IsCreated возвращает неправильное значение");
+            Assert.AreEqual(expected, actual);
         }
 
         /// <summary>
@@ -133,8 +128,7 @@ namespace NoteApp.UnitTests
 
             var secondValue = _note.IsChanged;
 
-            Assert.AreNotEqual(firstValue, secondValue,
-                "Геттер IsChanged возвращает неправильное значение");
+            Assert.AreNotEqual(firstValue, secondValue);
         }
 
         /// <summary>
