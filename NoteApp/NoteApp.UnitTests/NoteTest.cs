@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using NUnit.Framework;
 
 namespace NoteApp.UnitTests
@@ -42,7 +43,7 @@ namespace NoteApp.UnitTests
         }
         
         [Test(Description = "Позитивный тест геттера Title")]
-        public void TestTitleGet_CorrectValue()
+        public void Title_GetCorrectValue()
         {
             //Setup
             var expected = "Здесь должен быть текст";
@@ -54,8 +55,22 @@ namespace NoteApp.UnitTests
             Assert.AreEqual(expected, actual);
         }
 
-        [Test(Description = "Тест геттера Title с пустым значением")]
-        public void TestTitleGet_EmptyValue()
+        [Test(Description = "Позитивный тест сеттера Title")]
+        public void Title_SetRightValue()
+        {
+            //Setup
+            var expected = _sourceNote.Title;
+
+            //Act
+            _sourceNote.Title = expected;
+            var actual = _sourceNote.Title;
+
+            //Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test(Description = "Тест сеттера Title с пустым значением")]
+        public void Title_SetEmptyValue()
         {
             //Setup
             var expected = "Без названия";
@@ -68,9 +83,9 @@ namespace NoteApp.UnitTests
             Assert.AreEqual(expected, actual);
         }
         
-        [Test(Description = "Тест геттера Title с длиной значения" +
+        [Test(Description = "Тест сеттера Title с длиной значения" +
                             "поля, превышающего 50 символов")]
-        public void TestTitleGet_TooLongValue()
+        public void Title_SetTooLongValue()
         {
             //Setup
             var source = "Слишком длинное название поля," +
@@ -97,6 +112,20 @@ namespace NoteApp.UnitTests
             //Assert
             Assert.AreEqual(expected, actual);
         }
+
+        [Test(Description = "Тест сеттера Category")]
+        public void Category_SetRightValue()
+        {
+            //Setup
+            var expected = _sourceNote.Category;
+
+            //Act
+            _sourceNote.Category = expected;
+            var actual = _sourceNote.Category;
+
+            //Assert
+            Assert.AreEqual(expected, actual);
+        }
         
         [Test(Description = "Тест геттера Text")]
         public void Text_GetRightText()
@@ -105,6 +134,20 @@ namespace NoteApp.UnitTests
             var expected = "Название заметки";
 
             //Act
+            var actual = _sourceNote.Text;
+
+            //Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test(Description = "Тест сеттера Text")]
+        public void Text_SetRightValue()
+        {
+            //Setup
+            var expected = _sourceNote.Text;
+
+            //Act
+            _sourceNote.Text = expected;
             var actual = _sourceNote.Text;
 
             //Assert
@@ -123,6 +166,20 @@ namespace NoteApp.UnitTests
             //Assert
             Assert.AreEqual(expected, actual);
         }
+
+        [Test(Description = "Тест сеттера IsCreated")]
+        public void IsCreated_SetRightCreatedTime()
+        {
+            //Setup
+            var expected = _sourceNote.IsCreated;
+
+            //Act
+            _sourceNote.IsCreated = expected;
+            var actual = _sourceNote.IsCreated;
+
+            //Assert
+            Assert.AreEqual(expected, actual);
+        }
         
         [Test(Description = "Тест геттера IsChanged")]
         public void IsChanged_GetRightChangedTime()
@@ -133,6 +190,20 @@ namespace NoteApp.UnitTests
             //Act
             var actual = _sourceNote.IsChanged;
             
+            //Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test(Description = "Тест сеттера IsChanged")]
+        public void IsChanged_SetRightChangedTime()
+        {
+            //Setup
+            var expected = _sourceNote.IsChanged;
+
+            //Act
+            _sourceNote.IsChanged = expected;
+            var actual = _sourceNote.IsChanged;
+
             //Assert
             Assert.AreEqual(expected, actual);
         }
