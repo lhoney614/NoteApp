@@ -139,6 +139,7 @@ namespace NoteApp
                 Title = this._title,
                 Text = this._text,
                 Category = this._category,
+                IsCreated = this._isCreated,
                 IsChanged = this._isChanged
             };
         }

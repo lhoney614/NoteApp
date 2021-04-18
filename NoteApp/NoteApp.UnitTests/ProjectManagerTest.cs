@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 using NUnit.Framework;
 
 namespace NoteApp.UnitTests
@@ -8,19 +9,35 @@ namespace NoteApp.UnitTests
     public class ProjectManagerTest
     {
         /// <summary>
+        /// Путь к файлу, из которой загружается сборка
+        /// </summary>
+        private static readonly string LocalPath = Assembly.GetExecutingAssembly().Location;
+
+        /// <summary>
+        /// Переменная, хранящая папку, в которой лежит файл сборки
+        /// </summary>
+        private static readonly string PathDirectoryName = Path.GetDirectoryName(LocalPath);
+
+        /// <summary>
         /// Путь к правильному файлу
         /// </summary>
-        private const string CorrectProjectFileName = @"TestData\correctProject.json";
+        private readonly string _correctProjectFileName = PathDirectoryName + @"\TestData\correctProject.json";
 
         /// <summary>
         /// Путь к поврежденному файлу
         /// </summary>
-        private const string CorruptedProjectFileName = @"TestData\corruptedProject.json";
+        private readonly string _corruptedProjectFileName = PathDirectoryName + @"\TestData\corruptedProject.json";
+
+        /// <summary>
+        /// Путь к папке для сохранения файла
+        /// </summary>
+        private static readonly string OutputFilePath = PathDirectoryName + @"\Output";
 
         /// <summary>
         /// Путь для сохранения файла
         /// </summary>
-        private const string OutputProjectFileName = @"Output\savedFile.json";
+        private readonly string _outputProjectFileName = OutputFilePath + @"\savedFile.json";
+
 
         /// <summary>
         /// Создается объект проекта с двумя заметками в нем
@@ -59,14 +76,18 @@ namespace NoteApp.UnitTests
         {
             //Setup
             var savingProject = GetCorrectProject();
-            Directory.Delete(@"Output", true);
+
+            if (File.Exists(OutputFilePath))
+            {
+                Directory.Delete(OutputFilePath, true);
+            }
 
             //Act
-            ProjectManager.SaveToFile(savingProject, OutputProjectFileName);
+            ProjectManager.SaveToFile(savingProject, _outputProjectFileName);
             
             //Assert
-            var actual = File.ReadAllText(OutputProjectFileName);
-            var expected = File.ReadAllText(CorrectProjectFileName);
+            var actual = File.ReadAllText(_outputProjectFileName);
+            var expected = File.ReadAllText(_correctProjectFileName);
 
             Assert.AreEqual(expected, actual);
         }
@@ -78,7 +99,7 @@ namespace NoteApp.UnitTests
             var expectedProject = GetCorrectProject();
 
             //Act
-            var actualProject = ProjectManager.LoadFromFile(CorrectProjectFileName);
+            var actualProject = ProjectManager.LoadFromFile(_correctProjectFileName);
 
             //Assert
             Assert.AreEqual(expectedProject.Notes.Count, actualProject.Notes.Count);
@@ -100,7 +121,7 @@ namespace NoteApp.UnitTests
         public void LoadFromFile_LoadNotCorrectProject_ProjectLoadedNotCorrectly()
         {
             //Act
-            var actualProject = ProjectManager.LoadFromFile(CorruptedProjectFileName);
+            var actualProject = ProjectManager.LoadFromFile(_corruptedProjectFileName);
 
             //Assert
             Assert.AreEqual(actualProject.Notes.Count, 0);
@@ -111,7 +132,7 @@ namespace NoteApp.UnitTests
         public void LoadFromFile_LoadNonExistentProject_ProjectLoadedNotCorrectly()
         {
             //Act
-            var actualProject = ProjectManager.LoadFromFile(@"TestData\Project.json");
+            var actualProject = ProjectManager.LoadFromFile(@"\TestData\Project.json");
 
             //Assert
             Assert.AreEqual(actualProject.Notes.Count, 0);

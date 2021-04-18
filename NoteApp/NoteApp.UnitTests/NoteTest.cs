@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using NUnit.Framework;
 
 namespace NoteApp.UnitTests
@@ -10,139 +9,142 @@ namespace NoteApp.UnitTests
     [TestFixture]
     public class NoteTest
     {
-        private Note _note;
+        /// <summary>
+        /// Экземпляр заметки
+        /// </summary>
+        private Note _sourceNote;
+
+        /// <summary>
+        /// Переменная, хранящая время создания заметки
+        /// </summary>
+        private readonly DateTime _createdTime = new DateTime(2021, 04, 18, 17, 00, 00);
+
+        /// <summary>
+        /// Переменная, хранящая время изменения заметки
+        /// </summary>
+        private readonly DateTime _changedTime = new DateTime(2021, 04, 18, 17, 05, 00);
 
         /// <summary>
         /// Метод, выполняющийся каждый раз перед запуском теста
-        /// Создает экзеп=
+        /// Создает экземпляр заметки
         /// </summary>
         [SetUp]
-        public void InitNote()
+        public void MakeSourceNote()
         {
-            _note = new Note
+            _sourceNote = new Note
             {
-                Title = "Название заметки",
+                Title = "Здесь должен быть текст",
                 Category = NoteCategory.Home,
-                Text = "Здесь должен быть текст"
+                Text = "Название заметки",
+                IsCreated = _createdTime,
+                IsChanged = _changedTime
             };
         }
         
-        /// <summary>
-        /// Проверка на ввод правильного названия заметки
-        /// </summary>
         [Test(Description = "Позитивный тест геттера Title")]
         public void TestTitleGet_CorrectValue()
         {
-            //Ожидаемое название заметки
-            var expected = _note.Title;
+            //Setup
+            var expected = "Здесь должен быть текст";
 
-            //Присваиваем полю "Название заметки" текст
-            _note.Title = expected;
+            //Act
+            var actual = _sourceNote.Title;
 
-            //Присваиваем полю, хранящему название
-            //заметки в реальном времени новое значение
-            var actual = _note.Title;
-
-            //Сравниваем ожидаемое значение с тем, что получили
+            //Assert
             Assert.AreEqual(expected, actual);
         }
 
-        /// <summary>
-        /// Проверка на ввод пустой строки в название заметки
-        /// </summary>
         [Test(Description = "Тест геттера Title с пустым значением")]
         public void TestTitleGet_EmptyValue()
         {
-            //Ожидаемое название заметки
+            //Setup
             var expected = "Без названия";
 
-            //Присваиваем пустое значение
-            _note.Title = "";
+            //Act
+            _sourceNote.Title = "";
+            var actual = _sourceNote.Title;
 
-            //Присваиваем значение из поля "Нзавание заметки"
-            var actual = _note.Title;
-
-            //Сравниваем ожидаемое значение с полученным
+            //Assert
             Assert.AreEqual(expected, actual);
         }
-
-        /// <summary>
-        /// Проверка на ввод названия заметки более 50 символов
-        /// </summary>
+        
         [Test(Description = "Тест геттера Title с длиной значения" +
                             "поля, превышающего 50 символов")]
         public void TestTitleGet_TooLongValue()
         {
+            //Setup
             var source = "Слишком длинное название поля," +
                          "превышающее 50 символов и выбрасывающее" +
                          "исключение";
 
+            //Assert
             Assert.Throws<ArgumentException>(
-                //Анонимный метод
                 () =>
                 {
-                    //Тестируемый код
-                    _note.Title = source;
+                    _sourceNote.Title = source;
                 });
         }
 
-        /// <summary>
-        /// Проверка на ввод любого текста
-        /// </summary>
+        [Test(Description = "Тест геттера Category")]
+        public void Category_GetRightCategory()
+        {
+            //Setup
+            var expected = NoteCategory.Home;
+
+            //Act
+            var actual = _sourceNote.Category;
+
+            //Assert
+            Assert.AreEqual(expected, actual);
+        }
+        
         [Test(Description = "Тест геттера Text")]
-        public void TestTextGet_Value()
+        public void Text_GetRightText()
         {
-            var expected = _note.Text;
+            //Setup
+            var expected = "Название заметки";
 
-            _note.Text = expected;
+            //Act
+            var actual = _sourceNote.Text;
 
-            var actual = _note.Text;
-
+            //Assert
             Assert.AreEqual(expected, actual);
         }
-
-        /// <summary>
-        /// Проврека на НЕизменение даты создания заметки
-        /// </summary>
+        
         [Test(Description = "Тест геттера IsCreated")]
-        public void TestIsCreated_ChangeValue()
+        public void IsCreated_GetRightCreatedTime()
         {
-            var expected = _note.IsCreated;
+            //Setup
+            var expected = _createdTime;
 
-            _note.Text = _note.Text;
+            //Act
+            var actual = _sourceNote.IsCreated;
 
-            var actual = _note.IsCreated;
-
+            //Assert
             Assert.AreEqual(expected, actual);
         }
-
-        /// <summary>
-        /// Проверка на изменение даты изменения заметки
-        /// </summary>
+        
         [Test(Description = "Тест геттера IsChanged")]
-        public void TestIsChanged_ChangeValue()
+        public void IsChanged_GetRightChangedTime()
         {
-            var firstValue = _note.IsChanged;
+            //Setup
+            var expected = _changedTime;
 
-            _note.Text = _note.Text;
-
-            var secondValue = _note.IsChanged;
-
-            Assert.AreNotEqual(firstValue, secondValue);
+            //Act
+            var actual = _sourceNote.IsChanged;
+            
+            //Assert
+            Assert.AreEqual(expected, actual);
         }
-
-        /// <summary>
-        /// Проверка на правильность клонирования
-        /// </summary>
+        
         [Test(Description = "Тест клонирования ICloneable")]
         public void TestClone_ReturnsSameClone()
         {
-            var expected = (Note)_note.Clone();
+            //Act
+            var expected = (Note)_sourceNote.Clone();
 
-            Assert.AreEqual(expected.Title, _note.Title);
-            Assert.AreEqual(expected.Text, _note.Text);
-            Assert.AreEqual(expected.Category, _note.Category);
-            Assert.AreEqual(expected.IsChanged, _note.IsChanged);
+            //Assert
+            Assert.AreEqual(expected, _sourceNote);
         }
     }
 }
