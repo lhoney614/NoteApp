@@ -76,6 +76,11 @@ namespace NoteApp
                             //преобразуется результат в целевой тип данных
                             project = serializer.Deserialize<Project>(textReader);
                         }
+
+                        if (project == null)
+                        {
+                            return new Project();
+                        }
                     }
                 }
                 catch

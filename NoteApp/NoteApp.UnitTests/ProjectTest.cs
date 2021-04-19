@@ -5,10 +5,17 @@ namespace NoteApp.UnitTests
     [TestFixture]
     public class ProjectTest
     {
-        private Project _notes = new Project();
-        private Note _note = new Note();
+        /// <summary>
+        /// Экземпляр проекта
+        /// </summary>
+        private readonly Project _notes = new Project();
 
-        [Test]
+        /// <summary>
+        /// Экземпляр заметки
+        /// </summary>
+        private readonly Note _note = new Note();
+
+        [Test(Description = "Проверка на добавление заметки в коллекцию")]
         public void Project_NotNull()
         {
             _notes.Notes.Add(_note);

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using NUnit.Framework;
 
 namespace NoteApp.UnitTests
@@ -10,11 +9,6 @@ namespace NoteApp.UnitTests
     [TestFixture]
     public class NoteTest
     {
-        /// <summary>
-        /// Экземпляр заметки
-        /// </summary>
-        private Note _sourceNote;
-
         /// <summary>
         /// Переменная, хранящая время создания заметки
         /// </summary>
@@ -29,10 +23,9 @@ namespace NoteApp.UnitTests
         /// Метод, выполняющийся каждый раз перед запуском теста
         /// Создает экземпляр заметки
         /// </summary>
-        [SetUp]
-        public void MakeSourceNote()
+        public Note GetSourceNote()
         {
-            _sourceNote = new Note
+            var sourceNote = new Note
             {
                 Title = "Здесь должен быть текст",
                 Category = NoteCategory.Home,
@@ -40,16 +33,19 @@ namespace NoteApp.UnitTests
                 IsCreated = _createdTime,
                 IsChanged = _changedTime
             };
+
+            return sourceNote;
         }
         
         [Test(Description = "Позитивный тест геттера Title")]
         public void Title_GetCorrectValue()
         {
             //Setup
+            var sourceNote = GetSourceNote();
             var expected = "Здесь должен быть текст";
 
             //Act
-            var actual = _sourceNote.Title;
+            var actual = sourceNote.Title;
 
             //Assert
             Assert.AreEqual(expected, actual);
@@ -59,11 +55,12 @@ namespace NoteApp.UnitTests
         public void Title_SetRightValue()
         {
             //Setup
-            var expected = _sourceNote.Title;
+            var sourceNote = GetSourceNote();
+            var expected = sourceNote.Title;
 
             //Act
-            _sourceNote.Title = expected;
-            var actual = _sourceNote.Title;
+            sourceNote.Title = expected;
+            var actual = sourceNote.Title;
 
             //Assert
             Assert.AreEqual(expected, actual);
@@ -73,11 +70,12 @@ namespace NoteApp.UnitTests
         public void Title_SetEmptyValue()
         {
             //Setup
+            var sourceNote = GetSourceNote();
             var expected = "Без названия";
 
             //Act
-            _sourceNote.Title = "";
-            var actual = _sourceNote.Title;
+            sourceNote.Title = "";
+            var actual = sourceNote.Title;
 
             //Assert
             Assert.AreEqual(expected, actual);
@@ -88,6 +86,7 @@ namespace NoteApp.UnitTests
         public void Title_SetTooLongValue()
         {
             //Setup
+            var sourceNote = GetSourceNote();
             var source = "Слишком длинное название поля," +
                          "превышающее 50 символов и выбрасывающее" +
                          "исключение";
@@ -96,7 +95,8 @@ namespace NoteApp.UnitTests
             Assert.Throws<ArgumentException>(
                 () =>
                 {
-                    _sourceNote.Title = source;
+                    // Act
+                    sourceNote.Title = source;
                 });
         }
 
@@ -104,10 +104,11 @@ namespace NoteApp.UnitTests
         public void Category_GetRightCategory()
         {
             //Setup
+            var sourceNote = GetSourceNote();
             var expected = NoteCategory.Home;
 
             //Act
-            var actual = _sourceNote.Category;
+            var actual = sourceNote.Category;
 
             //Assert
             Assert.AreEqual(expected, actual);
@@ -117,11 +118,12 @@ namespace NoteApp.UnitTests
         public void Category_SetRightValue()
         {
             //Setup
-            var expected = _sourceNote.Category;
+            var sourceNote = GetSourceNote();
+            var expected = sourceNote.Category;
 
             //Act
-            _sourceNote.Category = expected;
-            var actual = _sourceNote.Category;
+            sourceNote.Category = expected;
+            var actual = sourceNote.Category;
 
             //Assert
             Assert.AreEqual(expected, actual);
@@ -131,10 +133,11 @@ namespace NoteApp.UnitTests
         public void Text_GetRightText()
         {
             //Setup
+            var sourceNote = GetSourceNote();
             var expected = "Название заметки";
 
             //Act
-            var actual = _sourceNote.Text;
+            var actual = sourceNote.Text;
 
             //Assert
             Assert.AreEqual(expected, actual);
@@ -144,11 +147,12 @@ namespace NoteApp.UnitTests
         public void Text_SetRightValue()
         {
             //Setup
-            var expected = _sourceNote.Text;
+            var sourceNote = GetSourceNote();
+            var expected = sourceNote.Text;
 
             //Act
-            _sourceNote.Text = expected;
-            var actual = _sourceNote.Text;
+            sourceNote.Text = expected;
+            var actual = sourceNote.Text;
 
             //Assert
             Assert.AreEqual(expected, actual);
@@ -158,10 +162,11 @@ namespace NoteApp.UnitTests
         public void IsCreated_GetRightCreatedTime()
         {
             //Setup
+            var sourceNote = GetSourceNote();
             var expected = _createdTime;
 
             //Act
-            var actual = _sourceNote.IsCreated;
+            var actual = sourceNote.IsCreated;
 
             //Assert
             Assert.AreEqual(expected, actual);
@@ -171,11 +176,12 @@ namespace NoteApp.UnitTests
         public void IsCreated_SetRightCreatedTime()
         {
             //Setup
-            var expected = _sourceNote.IsCreated;
+            var sourceNote = GetSourceNote();
+            var expected = sourceNote.IsCreated;
 
             //Act
-            _sourceNote.IsCreated = expected;
-            var actual = _sourceNote.IsCreated;
+            sourceNote.IsCreated = expected;
+            var actual = sourceNote.IsCreated;
 
             //Assert
             Assert.AreEqual(expected, actual);
@@ -185,10 +191,11 @@ namespace NoteApp.UnitTests
         public void IsChanged_GetRightChangedTime()
         {
             //Setup
+            var sourceNote = GetSourceNote();
             var expected = _changedTime;
 
             //Act
-            var actual = _sourceNote.IsChanged;
+            var actual = sourceNote.IsChanged;
             
             //Assert
             Assert.AreEqual(expected, actual);
@@ -198,11 +205,12 @@ namespace NoteApp.UnitTests
         public void IsChanged_SetRightChangedTime()
         {
             //Setup
-            var expected = _sourceNote.IsChanged;
+            var sourceNote = GetSourceNote();
+            var expected = sourceNote.IsChanged;
 
             //Act
-            _sourceNote.IsChanged = expected;
-            var actual = _sourceNote.IsChanged;
+            sourceNote.IsChanged = expected;
+            var actual = sourceNote.IsChanged;
 
             //Assert
             Assert.AreEqual(expected, actual);
@@ -212,10 +220,11 @@ namespace NoteApp.UnitTests
         public void TestClone_ReturnsSameClone()
         {
             //Act
-            var expected = (Note)_sourceNote.Clone();
+            var sourceNote = GetSourceNote();
+            var expected = (Note)sourceNote.Clone();
 
             //Assert
-            Assert.AreEqual(expected, _sourceNote);
+            Assert.AreEqual(expected, sourceNote);
         }
     }
 }
