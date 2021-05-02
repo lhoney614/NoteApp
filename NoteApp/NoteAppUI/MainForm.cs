@@ -19,8 +19,8 @@ namespace NoteAppUI
         private readonly Project _project;
 
         /// <summary>
-        /// Переменная, являющаяся источником данных
-        /// всех заметок для NotesListBox
+        /// Переменная, хранящая отсортированный список
+        /// всех заметок
         /// </summary>
         private BindingList<Note> _notes;
 
@@ -33,15 +33,38 @@ namespace NoteAppUI
 
             //Загрузка заметок из файла
             _project = ProjectManager.LoadFromFile(ProjectManager.FileName);
-
+            
             //Источником данных для списка категорий
             //является класс-перечисление "Категория заметки"
-            categoryBox.DataSource = Enum.GetValues(typeof(NoteCategory));
+            AddCategoryToCategoryBox();
+            
+            //При загрузке изначально высвечивается категория "All"
+            categoryBox.SelectedIndex = 0;
 
             //Занесение списка заметок в компонент NotesListBox
             //с помощью привязки данных
             UpdateNotesListBox();
             NotesListBox.DisplayMember = "Title";
+
+            if (_notes.Count != 0)
+            {
+                NotesListBox.SelectedIndex = _project.CurrentNoteIndex;
+            }
+        }
+
+        /// <summary>
+        /// Создание списка категорий в comboBox
+        /// </summary>
+        private void AddCategoryToCategoryBox()
+        {
+            categoryBox.Items.Add("All");
+            categoryBox.Items.Add(Enum.ToObject(typeof(NoteCategory), 0));
+            categoryBox.Items.Add(Enum.ToObject(typeof(NoteCategory), 1));
+            categoryBox.Items.Add(Enum.ToObject(typeof(NoteCategory), 2));
+            categoryBox.Items.Add(Enum.ToObject(typeof(NoteCategory), 3));
+            categoryBox.Items.Add(Enum.ToObject(typeof(NoteCategory), 4));
+            categoryBox.Items.Add(Enum.ToObject(typeof(NoteCategory), 5));
+            categoryBox.Items.Add(Enum.ToObject(typeof(NoteCategory), 6));
         }
 
         /// <summary>
@@ -50,7 +73,29 @@ namespace NoteAppUI
         private void UpdateNotesListBox()
         {
             _notes = _project.Notes;
+            
+            if (categoryBox.SelectedIndex == 0)
+            {
+                _notes = _project.SortByEdited(_notes);
+            }
+            else
+            {
+                _notes = _project.SortByEditedAndCategory(_notes, (NoteCategory)categoryBox.SelectedItem);
+            }
+
             NotesListBox.DataSource = _notes;
+        }
+
+        private void UpdateCurrentNoteIndex()
+        {
+            if (NotesListBox.Items.Count != 0)
+            {
+                _project.CurrentNoteIndex = NotesListBox.SelectedIndex;
+            }
+            else
+            {
+                _project.CurrentNoteIndex = 0;
+            }
         }
 
         /// <summary>
@@ -82,6 +127,8 @@ namespace NoteAppUI
             }
             else return;
 
+            UpdateNotesListBox();
+            UpdateCurrentNoteIndex();
             ProjectManager.SaveToFile(_project, ProjectManager.FileName);
         }
         
@@ -109,7 +156,8 @@ namespace NoteAppUI
 
             try
             {
-                var selectedNote = _project.Notes[selectedIndex];
+                var selectedNote = _notes[selectedIndex];
+                var notesSelectedIndex = _project.Notes.IndexOf(selectedNote);
 
                 //Передача форме NoteForm данных выбранной заметки
                 var editForm = new NoteForm {Note = selectedNote};
@@ -119,11 +167,12 @@ namespace NoteAppUI
                 if (editForm.DialogResult == DialogResult.OK)
                 {
                     var editedNote = editForm.Note;
+                    
 
                     //Вставка измененной заметки в список с
                     //последующим удалением старой версии заметки
-                    _project.Notes.RemoveAt(selectedIndex);
-                    _project.Notes.Insert(selectedIndex, editedNote);
+                    _project.Notes.RemoveAt(notesSelectedIndex);
+                    _project.Notes.Insert(notesSelectedIndex, editedNote);
                 }
 
                 else return;
@@ -134,6 +183,8 @@ namespace NoteAppUI
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
+            UpdateNotesListBox();
+            UpdateCurrentNoteIndex();
             ProjectManager.SaveToFile(_project, ProjectManager.FileName);
         }
 
@@ -150,6 +201,8 @@ namespace NoteAppUI
         private void RemoveNote()
         {
             var selectedIndex = NotesListBox.SelectedIndex;
+            var selectedNote = _notes[selectedIndex];
+            var notesSelectedIndex = _project.Notes.IndexOf(selectedNote);
 
             //Обработка события, если заметка не выбрана
             if (selectedIndex == -1)
@@ -167,10 +220,17 @@ namespace NoteAppUI
             if (dialogResult == DialogResult.OK)
             {
                 //Удаление заметки
-                _project.Notes.RemoveAt(selectedIndex);
+                _project.Notes.RemoveAt(notesSelectedIndex);
             }
-            
+
+            UpdateNotesListBox();
+            UpdateCurrentNoteIndex();
             ProjectManager.SaveToFile(_project, ProjectManager.FileName);
+
+            if (_notes.Count == 0)
+            {
+                UpdateEmptyListBox();
+            }
         }
 
         /// <summary>
@@ -183,25 +243,30 @@ namespace NoteAppUI
         {
             var selectedNote = (Note)NotesListBox.SelectedItem;
 
-            //Обработка события, если список пуст
-            if (NotesListBox.SelectedItem == null)
+            //Обработка события, если список не пуст
+            if (NotesListBox.SelectedItem != null)
             {
-                TitleLabel.Text = @"Без названия";
-                SelectedCategoryLabel.Text = @"";
-                TextBox.Text = @"";
-                TimeCreated.Text = @"";
-                TimeChanged.Text = @"";
+                TitleLabel.Text = selectedNote.Title;
+                SelectedCategoryLabel.Text = selectedNote.Category.ToString();
+                TextBox.Text = selectedNote.Text;
+                TimeCreated.Text = ToFormattedTime(selectedNote.IsCreated);
+                TimeChanged.Text = ToFormattedTime(selectedNote.IsChanged);
                 return;
             }
-
-            TitleLabel.Text = selectedNote.Title;
-            SelectedCategoryLabel.Text = selectedNote.Category.ToString();
-            TextBox.Text = selectedNote.Text;
-            TimeCreated.Text = ToFormattedTime(selectedNote.IsCreated);
-            TimeChanged.Text = ToFormattedTime(selectedNote.IsChanged);
+            
+            UpdateEmptyListBox();
         }
 
-        private string ToFormattedTime(DateTime time)
+        private void UpdateEmptyListBox()
+        {
+            TitleLabel.Text = @"Без названия";
+            SelectedCategoryLabel.Text = @"";
+            TextBox.Text = @"";
+            TimeCreated.Text = @"";
+            TimeChanged.Text = @"";
+        }
+
+            private string ToFormattedTime(DateTime time)
         {
             return time.ToShortDateString() + @" " + time.ToLongTimeString();
         }
@@ -214,6 +279,7 @@ namespace NoteAppUI
         /// <param name="e"></param>
         private void exitToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            UpdateCurrentNoteIndex();
             ProjectManager.SaveToFile(_project, ProjectManager.FileName);
             this.Close();
         }
@@ -260,8 +326,27 @@ namespace NoteAppUI
         /// <param name="e"></param>
         private void helpToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AboutForm aboutForm = new AboutForm();
+            var aboutForm = new AboutForm();
             aboutForm.Show();
+        }
+
+        private void categoryBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            UpdateNotesListBox();
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            UpdateCurrentNoteIndex();
+            ProjectManager.SaveToFile(_project, ProjectManager.FileName);
+        }
+
+        private void NotesListBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyData == Keys.Delete)
+            {
+                RemoveNote();
+            }
         }
     }
 }

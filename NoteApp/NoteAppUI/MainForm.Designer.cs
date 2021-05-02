@@ -69,6 +69,7 @@
             this.categoryBox.Name = "categoryBox";
             this.categoryBox.Size = new System.Drawing.Size(185, 24);
             this.categoryBox.TabIndex = 2;
+            this.categoryBox.SelectedIndexChanged += new System.EventHandler(this.categoryBox_SelectedIndexChanged);
             // 
             // label2
             // 
@@ -167,6 +168,7 @@
             this.NotesListBox.Size = new System.Drawing.Size(295, 468);
             this.NotesListBox.TabIndex = 16;
             this.NotesListBox.SelectedValueChanged += new System.EventHandler(this.NotesListBox_SelectedValueChanged);
+            this.NotesListBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.NotesListBox_KeyDown);
             // 
             // SelectedCategoryLabel
             // 
@@ -323,6 +325,7 @@
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "NoteApp";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
