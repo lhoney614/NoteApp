@@ -54,7 +54,7 @@ namespace NoteAppUI
                                            @" " + DateTime.Now.ToLongTimeString();
                 TimeChangedComboBox.Text = DateTime.Now.ToShortDateString() +
                                            @" " + DateTime.Now.ToLongTimeString();
-                TitleBox.Text = @"<Без названия>";
+                TitleBox.Text = @"Без названия";
                 return;
             }
 

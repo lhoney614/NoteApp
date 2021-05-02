@@ -52,7 +52,7 @@ namespace NoteApp.UnitTests
         }
 
         [Test(Description = "Позитивный тест сеттера Title")]
-        public void Title_SetRightValue()
+        public void Title_SetCorrectValue()
         {
             //Setup
             var sourceNote = GetSourceNote();
@@ -101,7 +101,7 @@ namespace NoteApp.UnitTests
         }
 
         [Test(Description = "Тест геттера Category")]
-        public void Category_GetRightCategory()
+        public void Category_GetCorrectCategory()
         {
             //Setup
             var sourceNote = GetSourceNote();
@@ -115,7 +115,7 @@ namespace NoteApp.UnitTests
         }
 
         [Test(Description = "Тест сеттера Category")]
-        public void Category_SetRightValue()
+        public void Category_SetCorrectValue()
         {
             //Setup
             var sourceNote = GetSourceNote();
@@ -130,7 +130,7 @@ namespace NoteApp.UnitTests
         }
         
         [Test(Description = "Тест геттера Text")]
-        public void Text_GetRightText()
+        public void Text_GetCorrectText()
         {
             //Setup
             var sourceNote = GetSourceNote();
@@ -144,7 +144,7 @@ namespace NoteApp.UnitTests
         }
 
         [Test(Description = "Тест сеттера Text")]
-        public void Text_SetRightValue()
+        public void Text_SetCorrectValue()
         {
             //Setup
             var sourceNote = GetSourceNote();
@@ -159,7 +159,7 @@ namespace NoteApp.UnitTests
         }
         
         [Test(Description = "Тест геттера IsCreated")]
-        public void IsCreated_GetRightCreatedTime()
+        public void IsCreated_GetCorrectCreatedTime()
         {
             //Setup
             var sourceNote = GetSourceNote();
@@ -173,7 +173,7 @@ namespace NoteApp.UnitTests
         }
 
         [Test(Description = "Тест сеттера IsCreated")]
-        public void IsCreated_SetRightCreatedTime()
+        public void IsCreated_SetCorrectCreatedTime()
         {
             //Setup
             var sourceNote = GetSourceNote();
@@ -188,7 +188,7 @@ namespace NoteApp.UnitTests
         }
         
         [Test(Description = "Тест геттера IsChanged")]
-        public void IsChanged_GetRightChangedTime()
+        public void IsChanged_GetCorrectChangedTime()
         {
             //Setup
             var sourceNote = GetSourceNote();
@@ -202,7 +202,7 @@ namespace NoteApp.UnitTests
         }
 
         [Test(Description = "Тест сеттера IsChanged")]
-        public void IsChanged_SetRightChangedTime()
+        public void IsChanged_SetCorrectChangedTime()
         {
             //Setup
             var sourceNote = GetSourceNote();

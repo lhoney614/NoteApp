@@ -46,6 +46,8 @@ namespace NoteAppUI
             UpdateNotesListBox();
             NotesListBox.DisplayMember = "Title";
 
+            //Присвоение индекса текущей заметки, которая
+            //была открыта при предыдущем сеансе
             if (_notes.Count != 0)
             {
                 NotesListBox.SelectedIndex = _project.CurrentNoteIndex;
@@ -74,10 +76,12 @@ namespace NoteAppUI
         {
             _notes = _project.Notes;
             
+            //Для категории "All"
             if (categoryBox.SelectedIndex == 0)
             {
                 _notes = _project.SortByEdited(_notes);
             }
+            //Для выбранной категории
             else
             {
                 _notes = _project.SortByEditedAndCategory(_notes, (NoteCategory)categoryBox.SelectedItem);
@@ -86,6 +90,9 @@ namespace NoteAppUI
             NotesListBox.DataSource = _notes;
         }
 
+        /// <summary>
+        /// Обновление значения индекса текущей заметки
+        /// </summary>
         private void UpdateCurrentNoteIndex()
         {
             if (NotesListBox.Items.Count != 0)
@@ -99,11 +106,28 @@ namespace NoteAppUI
         }
 
         /// <summary>
-        /// Обработка события нажатия на кнопку "New"
+        /// Обновление показываемой информации о заметке
+        /// при пустом списке заметок
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void NewNoteButton_Click(object sender, EventArgs e) => AddNote();
+        private void UpdateEmptyListBox()
+        {
+            TitleLabel.Text = @"Без названия";
+            SelectedCategoryLabel.Text = @"";
+            TextBox.Text = @"";
+            TimeCreated.Text = @"";
+            TimeChanged.Text = @"";
+        }
+
+        /// <summary>
+        /// Возвращает значение времени
+        /// в определенном формате
+        /// </summary>
+        /// <param name="time"></param>
+        /// <returns></returns>
+        private string ToFormattedTime(DateTime time)
+        {
+            return time.ToShortDateString() + @" " + time.ToShortTimeString();
+        }
 
         /// <summary>
         /// Реализация алгоритма создания новой заметки
@@ -131,13 +155,6 @@ namespace NoteAppUI
             UpdateCurrentNoteIndex();
             ProjectManager.SaveToFile(_project, ProjectManager.FileName);
         }
-        
-        /// <summary>
-        /// Обработка события нажатия на кнопку "Edit"
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void EditNoteButton_Click(object sender, EventArgs e) => EditNote();
 
         /// <summary>
         /// Реализация алгоритма редактирования заметки
@@ -149,7 +166,7 @@ namespace NoteAppUI
             //Обработка исключения, если ни одна заметка не выбрана
             if (selectedIndex == -1)
             {
-                MessageBox.Show(@"Не выбрана запись для редактирования", @"Ошибка",
+                MessageBox.Show(@"Note for editing is not selected", @"Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
@@ -179,7 +196,7 @@ namespace NoteAppUI
             }
             catch
             {
-                MessageBox.Show(@"Запись не найдена", @"Ошибка", 
+                MessageBox.Show(@"Note not found", @"Error", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
@@ -187,13 +204,6 @@ namespace NoteAppUI
             UpdateCurrentNoteIndex();
             ProjectManager.SaveToFile(_project, ProjectManager.FileName);
         }
-
-        /// <summary>
-        /// Обработка события нажатия на кнопку "Remove"
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void RemoveNoteButton_Click(object sender, EventArgs e) => RemoveNote();
 
         /// <summary>
         /// Реализация алгоритма удаления заметки
@@ -207,14 +217,14 @@ namespace NoteAppUI
             //Обработка события, если заметка не выбрана
             if (selectedIndex == -1)
             {
-                MessageBox.Show(@"Не выбрана запись для удаления", @"Ошибка", 
+                MessageBox.Show(@"Note for deletion not selected", @"Error", 
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             //Ожидание подтверждения удаления заметки пользователем
-            var dialogResult = MessageBox.Show(@"Вы действительно хотите удалить запись?", 
-                @"Удаление записи", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+            var dialogResult = MessageBox.Show(@"Are you sure you want to delete the note?", 
+                @"Deleting a note", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
 
             //Обработка положительного ответа
             if (dialogResult == DialogResult.OK)
@@ -231,6 +241,37 @@ namespace NoteAppUI
             {
                 UpdateEmptyListBox();
             }
+        }
+
+        /// <summary>
+        /// Обработка события нажатия на кнопку "New"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void NewNoteButton_Click(object sender, EventArgs e) => AddNote();
+        
+        /// <summary>
+        /// Обработка события нажатия на кнопку "Edit"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void EditNoteButton_Click(object sender, EventArgs e) => EditNote();
+
+        /// <summary>
+        /// Обработка события нажатия на кнопку "Remove"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void RemoveNoteButton_Click(object sender, EventArgs e) => RemoveNote();
+        
+        /// <summary>
+        /// Обработка события изменения выбранной категории
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void categoryBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            UpdateNotesListBox();
         }
 
         /// <summary>
@@ -256,35 +297,20 @@ namespace NoteAppUI
             
             UpdateEmptyListBox();
         }
-
-        private void UpdateEmptyListBox()
-        {
-            TitleLabel.Text = @"Без названия";
-            SelectedCategoryLabel.Text = @"";
-            TextBox.Text = @"";
-            TimeCreated.Text = @"";
-            TimeChanged.Text = @"";
-        }
-
-            private string ToFormattedTime(DateTime time)
-        {
-            return time.ToShortDateString() + @" " + time.ToLongTimeString();
-        }
-
+        
         /// <summary>
-        /// Обработка события выбора содержимого StripMenu
-        /// варианта "Exit"
+        /// Обработка события нажатия кнопки "Delete"
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void exitToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void NotesListBox_KeyDown(object sender, KeyEventArgs e)
         {
-            UpdateCurrentNoteIndex();
-            ProjectManager.SaveToFile(_project, ProjectManager.FileName);
-            this.Close();
+            if (e.KeyData == Keys.Delete)
+            {
+                RemoveNote();
+            }
         }
-
-
+        
         /// <summary>
         /// Обработка события выбора содержимого StripMenu
         /// варианта "Add Note"
@@ -330,23 +356,28 @@ namespace NoteAppUI
             aboutForm.Show();
         }
 
-        private void categoryBox_SelectedIndexChanged(object sender, EventArgs e)
+        /// <summary>
+        /// Обработка события выбора содержимого StripMenu
+        /// варианта "Exit"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void exitToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            UpdateNotesListBox();
+            UpdateCurrentNoteIndex();
+            ProjectManager.SaveToFile(_project, ProjectManager.FileName);
+            this.Close();
         }
 
+        /// <summary>
+        /// Обработка закрытия формы через значок "крестика"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             UpdateCurrentNoteIndex();
             ProjectManager.SaveToFile(_project, ProjectManager.FileName);
-        }
-
-        private void NotesListBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyData == Keys.Delete)
-            {
-                RemoveNote();
-            }
         }
     }
 }

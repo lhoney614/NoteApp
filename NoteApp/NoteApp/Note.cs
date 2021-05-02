@@ -46,7 +46,7 @@ namespace NoteApp
             {
                 if (value.Length > 50)
                 {
-                    throw new ArgumentException("Длина названия не должна превышать 50 символов");
+                    throw new ArgumentException("Name length should not exceed 50 characters");
                 }
 
                 _title = value != string.Empty ? value : "Без названия";
@@ -81,6 +81,16 @@ namespace NoteApp
                 _text = value;
                 IsChanged = DateTime.Now;
             }
+        }
+        
+        /// <summary>
+        /// Возвращает или задает значения "Время последнего изменения"
+        /// </summary>
+        public DateTime IsChanged
+        {
+            get => _isChanged;
+
+            set => _isChanged = value;
         }
 
         /// <summary>
@@ -117,16 +127,6 @@ namespace NoteApp
             IsCreated = isCreated;
             IsChanged = isChanged;
         }
-
-        /// <summary>
-        /// Возвращает или задает значения "Время последнего изменения"
-        /// </summary>
-        public DateTime IsChanged
-        {
-            get => _isChanged;
-
-            set => _isChanged = value;
-        }
         
         /// <summary>
         /// <inheritdoc cref="ICloneable"/>
@@ -144,6 +144,11 @@ namespace NoteApp
             };
         }
 
+        /// <summary>
+        /// Возвращает результат сравнения двух заметок
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public bool Equals(Note other)
         {
             if (ReferenceEquals(null, other)) return false;
@@ -157,6 +162,11 @@ namespace NoteApp
                    && _isChanged.Equals(other._isChanged);
         }
 
+        /// <summary>
+        /// Возвращает результат сравнения двух заметок
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
@@ -168,6 +178,12 @@ namespace NoteApp
             return Equals((Note) obj);
         }
 
+        /// <summary>
+        /// Возвращает некоторое числовое значение,
+        /// которое будет соответствовать данному объекту или его хэш-код
+        /// С помощью него можно сравнивать объекты
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             unchecked
