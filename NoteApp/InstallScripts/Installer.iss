@@ -2,7 +2,7 @@
 #define MyAppVersion "1.0.0"
 #define MyAppPublisher "Elizaveta Kolbas"
 #define MyAppURL "https://github.com/lhoney614/NoteApp"
-#define MyAppExeName "NoteApp.exe"
+#define MyAppExeName "NoteAppUI.exe"
 
 [Setup]
 AppId  = {{0CFE0878-DA14-4AA5-B75D-0EAC308D3C8A}}
@@ -18,6 +18,7 @@ ChangesAssociations = yes
 DisableProgramGroupPage = yes
 OutputDir = Installers
 OutputBaseFilename = NoteAppSetup
+SetupIconFile = "..\NoteAppUI\organizer_calendar_pen_note_6134.ico"
 Compression = lzma
 SolidCompression = yes
 WizardStyle = modern
@@ -32,10 +33,11 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 [Files]
 Source: "Release\*.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "Release\*.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\NoteAppUI\organizer_calendar_pen_note_6134.ico"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
-Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
-Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks:desktopicon 
+;Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
+Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFileName: "{app}\organizer_calendar_pen_note_6134.ico";  Tasks:desktopicon 
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
