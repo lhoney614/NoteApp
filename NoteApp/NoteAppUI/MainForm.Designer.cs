@@ -74,7 +74,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(8, 35);
+            this.label2.Location = new System.Drawing.Point(8, 37);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(69, 17);
             this.label2.TabIndex = 5;
@@ -92,7 +92,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(8, 59);
+            this.label5.Location = new System.Drawing.Point(8, 62);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(62, 17);
             this.label5.TabIndex = 10;
@@ -101,7 +101,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(277, 59);
+            this.label6.Location = new System.Drawing.Point(250, 62);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(65, 17);
             this.label6.TabIndex = 11;
@@ -111,7 +111,7 @@
             // 
             this.TitleLabel.AutoSize = true;
             this.TitleLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.TitleLabel.Location = new System.Drawing.Point(6, 10);
+            this.TitleLabel.Location = new System.Drawing.Point(6, 7);
             this.TitleLabel.Name = "TitleLabel";
             this.TitleLabel.Size = new System.Drawing.Size(54, 25);
             this.TitleLabel.TabIndex = 12;
@@ -173,7 +173,7 @@
             // SelectedCategoryLabel
             // 
             this.SelectedCategoryLabel.AutoSize = true;
-            this.SelectedCategoryLabel.Location = new System.Drawing.Point(83, 35);
+            this.SelectedCategoryLabel.Location = new System.Drawing.Point(73, 37);
             this.SelectedCategoryLabel.Name = "SelectedCategoryLabel";
             this.SelectedCategoryLabel.Size = new System.Drawing.Size(63, 17);
             this.SelectedCategoryLabel.TabIndex = 17;
@@ -226,7 +226,7 @@
             // TimeChanged
             // 
             this.TimeChanged.Enabled = false;
-            this.TimeChanged.Location = new System.Drawing.Point(348, 57);
+            this.TimeChanged.Location = new System.Drawing.Point(321, 57);
             this.TimeChanged.Name = "TimeChanged";
             this.TimeChanged.Size = new System.Drawing.Size(168, 22);
             this.TimeChanged.TabIndex = 20;

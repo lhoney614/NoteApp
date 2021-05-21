@@ -37,6 +37,8 @@ Name: "{commonstartmenu}\{#StartMenuFolderName}"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
+Source: "Release\*.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "Release\*.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\NoteAppUI\organizer_calendar_pen_note_6134.ico"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
