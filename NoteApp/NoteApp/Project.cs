@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace NoteApp
@@ -11,7 +11,7 @@ namespace NoteApp
         /// <summary>
         /// Возвращает список текущих заметок
         /// </summary>
-        public BindingList<Note> Notes { get; private set; } = new BindingList<Note>();
+        public List<Note> Notes { get; set; } = new List<Note>();
 
         /// <summary>
         /// Возвращает или задает текущий индекс в ListBox
@@ -25,9 +25,10 @@ namespace NoteApp
         /// </summary>
         /// <param name="notSortedList"></param>
         /// <returns></returns>
-        public BindingList<Note> SortByEdited(BindingList<Note> notSortedList)
+        public List<Note> SortByEdited(List<Note> notSortedList)
         {
-            return new BindingList<Note>(notSortedList.OrderByDescending(item => item.IsChanged).ToList());
+            var sortedNotes = notSortedList.OrderByDescending(item => item.IsChanged).ToList();
+            return sortedNotes;
         }
 
         /// <summary>
@@ -37,10 +38,11 @@ namespace NoteApp
         /// <param name="notSortedList"></param>
         /// <param name="category"></param>
         /// <returns></returns>
-        public BindingList<Note> SortByEditedAndCategory(BindingList<Note> notSortedList, NoteCategory category)
+        public List<Note> SortByEditedAndCategory(List<Note> notSortedList, NoteCategory category)
         {
-            return new BindingList<Note>(notSortedList.Where(item => item.Category == category)
-                .OrderByDescending(item => item.IsChanged).ToList());
+            var sortedNotesCategory = notSortedList.Where(item => item.Category == category).ToList();
+            var sortedNotes = sortedNotesCategory.OrderByDescending(item => item.IsChanged).ToList();
+            return sortedNotes;
         }
     }
 }

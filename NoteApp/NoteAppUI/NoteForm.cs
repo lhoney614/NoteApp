@@ -24,7 +24,7 @@ namespace NoteAppUI
             get => _note;
             set
             {
-                _note = value;
+                _note = (Note)value.Clone();
                 DisplayNote();
             }
         }
@@ -50,10 +50,8 @@ namespace NoteAppUI
             //Обработка передачи пустой заметки для ее создания
             if (_note == null)
             {
-                TimeCreatedComboBox.Text = DateTime.Now.ToShortDateString() +
-                                           @" " + DateTime.Now.ToLongTimeString();
-                TimeChangedComboBox.Text = DateTime.Now.ToShortDateString() +
-                                           @" " + DateTime.Now.ToLongTimeString();
+                TimeCreated.Text = DateTime.Now.ToShortDateString();
+                TimeChanged.Text = DateTime.Now.ToShortDateString();
                 TitleBox.Text = @"Без названия";
                 return;
             }
@@ -62,10 +60,8 @@ namespace NoteAppUI
             TitleBox.Text = _note.Title;
             TextBox.Text = _note.Text;
             CategoryComboBox.SelectedItem = _note.Category;
-            TimeCreatedComboBox.Text = _note.IsCreated.ToShortDateString() +
-                             @" " + _note.IsCreated.ToLongTimeString();
-            TimeChangedComboBox.Text = _note.IsChanged.ToShortDateString() +
-                             @" " + _note.IsChanged.ToLongTimeString();
+            TimeCreated.Text = _note.ToFormattedTime(_note.IsCreated);
+            TimeChanged.Text = _note.ToFormattedTime(_note.IsChanged);
         }
 
         /// <summary>
@@ -123,8 +119,8 @@ namespace NoteAppUI
                 MessageBox.Show(exception.Message);
                 return;
             }
-            this.DialogResult = DialogResult.OK;
-            this.Close();
+            DialogResult = DialogResult.OK;
+            Close();
         }
 
         /// <summary>
@@ -134,8 +130,8 @@ namespace NoteAppUI
         /// <param name="e"></param>
         private void CancelButton_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.Cancel;
-            this.Close();
+            DialogResult = DialogResult.Cancel;
+            Close();
         }
     }
 }

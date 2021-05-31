@@ -34,11 +34,11 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.CategoryComboBox = new System.Windows.Forms.ComboBox();
-            this.TimeCreatedComboBox = new System.Windows.Forms.ComboBox();
-            this.TimeChangedComboBox = new System.Windows.Forms.ComboBox();
             this.OKButton = new System.Windows.Forms.Button();
             this.CancelButton = new System.Windows.Forms.Button();
             this.TextBox = new System.Windows.Forms.TextBox();
+            this.TimeCreated = new System.Windows.Forms.DateTimePicker();
+            this.TimeChanged = new System.Windows.Forms.DateTimePicker();
             this.SuspendLayout();
             // 
             // TitleBox
@@ -54,7 +54,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 15);
+            this.label1.Location = new System.Drawing.Point(13, 17);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(39, 17);
             this.label1.TabIndex = 1;
@@ -63,7 +63,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(13, 43);
+            this.label2.Location = new System.Drawing.Point(12, 43);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(69, 17);
             this.label2.TabIndex = 2;
@@ -72,7 +72,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(13, 73);
+            this.label3.Location = new System.Drawing.Point(13, 75);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(62, 17);
             this.label3.TabIndex = 3;
@@ -81,7 +81,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(13, 103);
+            this.label4.Location = new System.Drawing.Point(12, 103);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(65, 17);
             this.label4.TabIndex = 4;
@@ -95,24 +95,6 @@
             this.CategoryComboBox.Size = new System.Drawing.Size(208, 24);
             this.CategoryComboBox.TabIndex = 5;
             this.CategoryComboBox.SelectedIndexChanged += new System.EventHandler(this.CategoryComboBox_SelectedIndexChanged);
-            // 
-            // TimeCreatedComboBox
-            // 
-            this.TimeCreatedComboBox.Enabled = false;
-            this.TimeCreatedComboBox.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.TimeCreatedComboBox.Location = new System.Drawing.Point(90, 70);
-            this.TimeCreatedComboBox.Name = "TimeCreatedComboBox";
-            this.TimeCreatedComboBox.Size = new System.Drawing.Size(208, 24);
-            this.TimeCreatedComboBox.TabIndex = 6;
-            // 
-            // TimeChangedComboBox
-            // 
-            this.TimeChangedComboBox.Enabled = false;
-            this.TimeChangedComboBox.FormattingEnabled = true;
-            this.TimeChangedComboBox.Location = new System.Drawing.Point(90, 100);
-            this.TimeChangedComboBox.Name = "TimeChangedComboBox";
-            this.TimeChangedComboBox.Size = new System.Drawing.Size(208, 24);
-            this.TimeChangedComboBox.TabIndex = 7;
             // 
             // OKButton
             // 
@@ -150,21 +132,37 @@
             this.TextBox.TabIndex = 10;
             this.TextBox.TextChanged += new System.EventHandler(this.TextBox_TextChanged);
             // 
+            // TimeCreated
+            // 
+            this.TimeCreated.Enabled = false;
+            this.TimeCreated.Location = new System.Drawing.Point(90, 70);
+            this.TimeCreated.Name = "TimeCreated";
+            this.TimeCreated.Size = new System.Drawing.Size(208, 22);
+            this.TimeCreated.TabIndex = 11;
+            // 
+            // TimeChanged
+            // 
+            this.TimeChanged.Enabled = false;
+            this.TimeChanged.Location = new System.Drawing.Point(90, 98);
+            this.TimeChanged.Name = "TimeChanged";
+            this.TimeChanged.Size = new System.Drawing.Size(208, 22);
+            this.TimeChanged.TabIndex = 12;
+            // 
             // NoteForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(682, 532);
+            this.Controls.Add(this.TimeChanged);
+            this.Controls.Add(this.TimeCreated);
             this.Controls.Add(this.TextBox);
             this.Controls.Add(this.CategoryComboBox);
             this.Controls.Add(this.CancelButton);
             this.Controls.Add(this.OKButton);
             this.Controls.Add(this.TitleBox);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.TimeCreatedComboBox);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.TimeChangedComboBox);
             this.Controls.Add(this.label3);
             this.Name = "NoteForm";
             this.ShowIcon = false;
@@ -183,10 +181,10 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox CategoryComboBox;
-        private System.Windows.Forms.ComboBox TimeCreatedComboBox;
-        private System.Windows.Forms.ComboBox TimeChangedComboBox;
         private System.Windows.Forms.Button OKButton;
         private new System.Windows.Forms.Button CancelButton;
         private System.Windows.Forms.TextBox TextBox;
+        private System.Windows.Forms.DateTimePicker TimeCreated;
+        private System.Windows.Forms.DateTimePicker TimeChanged;
     }
 }

@@ -196,5 +196,10 @@ namespace NoteApp
                 return hashCode;
             }
         }
+
+        public string ToFormattedTime(DateTime time)
+        {
+            return time.ToShortDateString() + @" " + time.ToShortTimeString();
+        }
     }
 }

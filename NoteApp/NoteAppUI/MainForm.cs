@@ -1,5 +1,6 @@
 ﻿using System;
-using System.ComponentModel;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using NoteApp;
 using Enum = System.Enum;
@@ -22,7 +23,7 @@ namespace NoteAppUI
         /// Переменная, хранящая отсортированный список
         /// всех заметок
         /// </summary>
-        private BindingList<Note> _notes;
+        private List<Note> _viewedNotes;
 
         /// <summary>
         /// Загрузка формы MainForm
@@ -30,25 +31,14 @@ namespace NoteAppUI
         public MainForm()
         {
             InitializeComponent();
-
-            //Загрузка заметок из файла
+            
             _project = ProjectManager.LoadFromFile(ProjectManager.FileName);
-            
-            //Источником данных для списка категорий
-            //является класс-перечисление "Категория заметки"
             AddCategoryToCategoryBox();
-            
-            //При загрузке изначально высвечивается категория "All"
-            categoryBox.SelectedIndex = 0;
-
-            //Занесение списка заметок в компонент NotesListBox
-            //с помощью привязки данных
             UpdateNotesListBox();
-            NotesListBox.DisplayMember = "Title";
-
+            
             //Присвоение индекса текущей заметки, которая
             //была открыта при предыдущем сеансе
-            if (_notes.Count != 0)
+            if (_viewedNotes.Count != 0)
             {
                 NotesListBox.SelectedIndex = _project.CurrentNoteIndex;
             }
@@ -60,13 +50,9 @@ namespace NoteAppUI
         private void AddCategoryToCategoryBox()
         {
             categoryBox.Items.Add("All");
-            categoryBox.Items.Add(Enum.ToObject(typeof(NoteCategory), 0));
-            categoryBox.Items.Add(Enum.ToObject(typeof(NoteCategory), 1));
-            categoryBox.Items.Add(Enum.ToObject(typeof(NoteCategory), 2));
-            categoryBox.Items.Add(Enum.ToObject(typeof(NoteCategory), 3));
-            categoryBox.Items.Add(Enum.ToObject(typeof(NoteCategory), 4));
-            categoryBox.Items.Add(Enum.ToObject(typeof(NoteCategory), 5));
-            categoryBox.Items.Add(Enum.ToObject(typeof(NoteCategory), 6));
+            var allValues = Enum.GetValues(typeof(NoteCategory)).Cast<object>().ToArray();
+            categoryBox.Items.AddRange(allValues);
+            categoryBox.SelectedIndex = 0;
         }
 
         /// <summary>
@@ -74,20 +60,22 @@ namespace NoteAppUI
         /// </summary>
         private void UpdateNotesListBox()
         {
-            _notes = _project.Notes;
-            
             //Для категории "All"
             if (categoryBox.SelectedIndex == 0)
             {
-                _notes = _project.SortByEdited(_notes);
+                _project.Notes = _project.SortByEdited(_project.Notes);
+                _viewedNotes = _project.Notes.ToList();
             }
             //Для выбранной категории
             else
             {
-                _notes = _project.SortByEditedAndCategory(_notes, (NoteCategory)categoryBox.SelectedItem);
+                _viewedNotes = _project.SortByEditedAndCategory(_project.Notes,
+                    (NoteCategory) categoryBox.SelectedItem);
             }
 
-            NotesListBox.DataSource = _notes;
+            NotesListBox.DataSource = null;
+            NotesListBox.DataSource = _viewedNotes;
+            NotesListBox.DisplayMember = "Title";
         }
 
         /// <summary>
@@ -95,14 +83,7 @@ namespace NoteAppUI
         /// </summary>
         private void UpdateCurrentNoteIndex()
         {
-            if (NotesListBox.Items.Count != 0)
-            {
-                _project.CurrentNoteIndex = NotesListBox.SelectedIndex;
-            }
-            else
-            {
-                _project.CurrentNoteIndex = 0;
-            }
+            _project.CurrentNoteIndex = NotesListBox.Items.Count != 0 ? NotesListBox.SelectedIndex : 0;
         }
 
         /// <summary>
@@ -116,17 +97,6 @@ namespace NoteAppUI
             TextBox.Text = @"";
             TimeCreated.Text = @"";
             TimeChanged.Text = @"";
-        }
-
-        /// <summary>
-        /// Возвращает значение времени
-        /// в определенном формате
-        /// </summary>
-        /// <param name="time"></param>
-        /// <returns></returns>
-        private string ToFormattedTime(DateTime time)
-        {
-            return time.ToShortDateString() + @" " + time.ToShortTimeString();
         }
 
         /// <summary>
@@ -147,7 +117,6 @@ namespace NoteAppUI
                 var addedNote = addForm.Note;
                 
                 _project.Notes.Add(addedNote);
-
             }
             else return;
 
@@ -173,9 +142,8 @@ namespace NoteAppUI
 
             try
             {
-                var selectedNote = _notes[selectedIndex];
-                var notesSelectedIndex = _project.Notes.IndexOf(selectedNote);
-
+                var selectedNote = _viewedNotes[selectedIndex];
+                
                 //Передача форме NoteForm данных выбранной заметки
                 var editForm = new NoteForm {Note = selectedNote};
                 editForm.ShowDialog();
@@ -183,15 +151,11 @@ namespace NoteAppUI
                 //Обработка закрытия формы EditNote
                 if (editForm.DialogResult == DialogResult.OK)
                 {
-                    var editedNote = editForm.Note;
+                    selectedNote = editForm.Note;
                     
-
-                    //Вставка измененной заметки в список с
-                    //последующим удалением старой версии заметки
-                    _project.Notes.RemoveAt(notesSelectedIndex);
-                    _project.Notes.Insert(notesSelectedIndex, editedNote);
+                    _project.Notes.RemoveAt(selectedIndex);
+                    _project.Notes.Insert(selectedIndex, selectedNote);
                 }
-
                 else return;
             }
             catch
@@ -202,6 +166,7 @@ namespace NoteAppUI
 
             UpdateNotesListBox();
             UpdateCurrentNoteIndex();
+
             ProjectManager.SaveToFile(_project, ProjectManager.FileName);
         }
 
@@ -211,8 +176,6 @@ namespace NoteAppUI
         private void RemoveNote()
         {
             var selectedIndex = NotesListBox.SelectedIndex;
-            var selectedNote = _notes[selectedIndex];
-            var notesSelectedIndex = _project.Notes.IndexOf(selectedNote);
 
             //Обработка события, если заметка не выбрана
             if (selectedIndex == -1)
@@ -230,14 +193,15 @@ namespace NoteAppUI
             if (dialogResult == DialogResult.OK)
             {
                 //Удаление заметки
-                _project.Notes.RemoveAt(notesSelectedIndex);
+                _project.Notes.RemoveAt(selectedIndex);
             }
+            else return;
 
             UpdateNotesListBox();
             UpdateCurrentNoteIndex();
             ProjectManager.SaveToFile(_project, ProjectManager.FileName);
 
-            if (_notes.Count == 0)
+            if (_viewedNotes.Count == 0)
             {
                 UpdateEmptyListBox();
             }
@@ -283,15 +247,14 @@ namespace NoteAppUI
         private void NotesListBox_SelectedValueChanged(object sender, EventArgs e)
         {
             var selectedNote = (Note)NotesListBox.SelectedItem;
-
-            //Обработка события, если список не пуст
-            if (NotesListBox.SelectedItem != null)
+            
+            if (selectedNote != null)
             {
                 TitleLabel.Text = selectedNote.Title;
                 SelectedCategoryLabel.Text = selectedNote.Category.ToString();
                 TextBox.Text = selectedNote.Text;
-                TimeCreated.Text = ToFormattedTime(selectedNote.IsCreated);
-                TimeChanged.Text = ToFormattedTime(selectedNote.IsChanged);
+                TimeCreated.Text = selectedNote.ToFormattedTime(selectedNote.IsCreated);
+                TimeChanged.Text = selectedNote.ToFormattedTime(selectedNote.IsChanged);
                 return;
             }
             
